@@ -1,0 +1,30 @@
+name: ai-run
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "Task override (opzionale)"
+        required: false
+  issue_comment:
+    types: [created]
+jobs:
+  run:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.comment.body, '/ai-run')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v3
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: pnpm i
+      - name: Esegui runner
+        run: node scripts/ai-run.ts
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # o il provider che preferisci
+      - name: Upload journal
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-journal
+          path: ai/JOURNAL.md

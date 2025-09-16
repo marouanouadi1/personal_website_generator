@@ -1,0 +1,4 @@
+- Non modificare .env*, chiavi, o workflow di deploy senza approvazione umana.
+- Non cancellare file fuori da /app, /components, /content, /lib, /styles.
+- Ogni PR <= 300 linee modificate.
+- Copertura test non scende sotto soglia configurata.
