@@ -59,9 +59,10 @@ async function getPatchFromLLM(task: string): Promise<string> {
   });
 
   // Extract text content
-  const textParts = msg.content
-    .filter((c: any) => c.type === "text")
-    .map((c: any) => c.text)
+  type MessageContent = { type: "text"; text: string } | { type: string; [key: string]: unknown };
+  const textParts = (msg.content as MessageContent[])
+    .filter((c) => c.type === "text")
+    .map((c) => (c.type === "text" ? c.text : ""))
     .join("\n");
 
   // Heuristic: ensure starts with diff markers

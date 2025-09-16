@@ -22,7 +22,7 @@ jobs:
       - name: Esegui runner
         run: node scripts/ai-run.ts
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # o il provider che preferisci
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }} # o il provider che preferisci
       - name: Upload journal
         uses: actions/upload-artifact@v4
         with:

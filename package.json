@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "echo 'dev placeholder'",
     "build": "tsc -p .",
-    "lint": "eslint . --ext .ts,.tsx || exit 0",
+    "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "prettier": "prettier"

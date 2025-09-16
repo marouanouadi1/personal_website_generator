@@ -38,7 +38,7 @@ chmod +x scripts/ai-run.ts
 ## Note
 - Limite patch: 300 linee (gestito lato prompt/LLM)
 - Se la patch non è valida lo script fallisce e stampa l'output del modello
-- Modello usato: `claude-3-5-sonnet-20240620`
+- Modello usato: `claude-sonnet-4-20250514`
 
 ## TODO Futuro
 - Validazione formale diff
