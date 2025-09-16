@@ -7,9 +7,29 @@
     "dev": "echo 'dev placeholder'",
     "build": "tsc -p .",
     "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "prettier": "prettier"
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prettier": "prettier",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "validate": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "ai:run": "tsx scripts/ai-run.ts",
+    "ai:config:validate": "tsx scripts/config-validator.ts",
+    "ai:tasks": "tsx scripts/task-manager.ts list",
+    "ai:tasks:next": "tsx scripts/task-manager.ts next",
+    "ai:git:status": "tsx scripts/git-utils.ts status",
+    "ai:git:cleanup": "tsx scripts/git-utils.ts cleanup",
+    "ai:git:cleanup:dry": "tsx scripts/git-utils.ts cleanup --dry-run",
+    "cleanup": "tsx scripts/project-utils.ts cleanup",
+    "cleanup:dry": "tsx scripts/project-utils.ts cleanup --dry-run",
+    "cleanup:deep": "tsx scripts/project-utils.ts cleanup --deep",
+    "project:validate": "tsx scripts/project-utils.ts validate",
+    "project:report": "tsx scripts/project-utils.ts report",
+    "prepare": "npm run validate"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.62.0",
@@ -19,9 +39,20 @@
     "@types/node": "^20.12.12",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
+    "tsx": "^4.7.0",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "ai",
+    "automation",
+    "website-generator",
+    "typescript"
+  ]
 }
