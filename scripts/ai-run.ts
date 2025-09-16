@@ -7,7 +7,25 @@ import "dotenv/config";
 
 function log(level: "info" | "error" | "warn", message: string) {
   const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] ${level.toUpperCase()}: ${message}`);
+  const logMessage = `[${timestamp}] ${level.toUpperCase()}: ${message}\n`;
+
+  // Crea la directory logs se non esiste
+  const logsDir = path.join(process.cwd(), "logs");
+  if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+  }
+
+  // Scrivi nel file di log con il nome basato sulla data
+  const logFileName = `ai-run-${new Date().toISOString().split("T")[0]}.log`;
+  const logFilePath = path.join(logsDir, logFileName);
+
+  try {
+    fs.appendFileSync(logFilePath, logMessage);
+  } catch (error) {
+    // Fallback su console se il file non può essere scritto
+    console.error(`Failed to write to log file: ${error}`);
+    console.log(logMessage.trim());
+  }
 }
 
 function sh(cmd: string, options?: { ignoreError?: boolean }) {
@@ -152,7 +170,7 @@ async function main() {
   const next = match ? match[0].replace(/- \[ \] /, "").trim() : undefined;
   if (!next) {
     log("info", "No open tasks found");
-    console.log("Nessun task aperto.");
+    log("info", "Nessun task aperto.");
     return;
   }
 
@@ -185,7 +203,7 @@ async function main() {
   }
 
   // 3) Ottieni patch dall'AI
-  console.log("Richiedo patch a Claude Sonnet per il task:", next);
+  log("info", `Richiedo patch a Claude Sonnet per il task: ${next}`);
   let patch: string;
   try {
     patch = await getPatchFromLLM(next);
@@ -205,8 +223,8 @@ async function main() {
     log("info", "Patch applied successfully");
   } catch (e) {
     log("error", "Patch could not be applied");
-    console.error("Patch content:");
-    console.error(patch);
+    log("error", "Patch content:");
+    log("error", patch);
     throw new Error("Patch non applicabile");
   } finally {
     // Clean up temporary file
