@@ -1,6 +1,7 @@
 #!/usr/bin/env ts-node
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { execSync } from "node:child_process";
 import Anthropic from "@anthropic-ai/sdk";
 import "dotenv/config";
@@ -93,7 +94,7 @@ async function getPatchFromLLM(task: string): Promise<string> {
     log("info", "Generating repository tree");
     const tree = list(process.cwd());
 
-    const system = `Sei un agente che propone UNA singola patch diff unificata (formato '*** Begin Patch' se vuoi, ma preferibilmente unified diff semplice) per completare il task richiesto.\nRequisiti:\n- Non modificare file fuori da allowedPaths se definiti.\n- Mantieni patch <= 300 linee.\n- Solo diff, nessuna spiegazione.`;
+    const system = `Sei un agente che propone UNA singola patch diff unificata per completare il task richiesto.\nRequisiti:\n- Non modificare file fuori da allowedPaths se definiti.\n- Mantieni patch <= 300 linee.\n- Fornisci SOLO il diff unified senza markdown code blocks (no \`\`\`diff).\n- Formato standard git diff o unified diff applicabile con 'git apply'.`;
 
     const userContent = `TASK SELEZIONATO:\n${task}\n\nPROMPT PRINCIPALE:\n${prompt}\n\nBACKLOG COMPLETO:\n${tasksMd}\n\nREPO TREE:\n${tree}\n\nFornisci ora SOLO la patch unified diff applicabile con 'git apply'.`;
 
@@ -122,15 +123,24 @@ async function getPatchFromLLM(task: string): Promise<string> {
 
     log("info", `Received response of ${textParts.length} characters`);
 
-    // Better validation for patch content
-    const patch = textParts.match(/(^|\n)(\+\+\+|diff --git|Index: )/)
-      ? textParts
-      : textParts.trim();
+    // Extract patch from markdown code blocks if present
+    let patch = textParts.trim();
 
-    // Enhanced patch validation
-    if (!/diff --git|^\+\+\+|^---/.test(patch)) {
+    // Remove markdown code block markers if present
+    if (patch.startsWith("```diff\n") || patch.startsWith("```\n")) {
+      patch = patch.replace(/^```(diff)?\n/, "").replace(/\n```$/, "");
+    }
+
+    // Clean up any extra whitespace
+    patch = patch.trim();
+
+    // Enhanced patch validation - check for diff markers anywhere in the content
+    const hasDiffMarkers = /(?:^|\n)(?:diff --git|Index: |\+\+\+|---)/m.test(patch);
+
+    if (!hasDiffMarkers) {
       log("error", "Invalid patch format received from AI");
       log("info", `AI Response preview: ${textParts.substring(0, 500)}...`);
+      log("info", `Cleaned patch preview: ${patch.substring(0, 500)}...`);
       throw new Error("La risposta del modello non sembra un diff valido");
     }
 
@@ -213,13 +223,13 @@ async function main() {
   }
 
   // 4) Applica patch
-  const tmpPath = path.join(process.cwd(), "tmp_patch.diff");
+  const tmpPath = path.join(os.tmpdir(), "ai_patch.diff");
   try {
     log("info", "Writing patch to temporary file");
     fs.writeFileSync(tmpPath, patch);
 
     log("info", "Applying patch");
-    sh(`git apply ${tmpPath}`);
+    sh(`git apply "${tmpPath}"`);
     log("info", "Patch applied successfully");
   } catch (e) {
     log("error", "Patch could not be applied");
