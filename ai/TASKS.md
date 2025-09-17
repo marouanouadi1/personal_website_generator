@@ -1,5 +1,9 @@
 # Backlog
-- [ ] Setup progetto: Next.js + Tailwind + shadcn/ui + next-intl (it/en)
+
+- [ ] Inizializza Next.js con package.json update
+- [ ] Setup Tailwind CSS configurazione base
+- [ ] Aggiungi shadcn/ui configurazione
+- [ ] Setup next-intl per internazionalizzazione it/en
 - [ ] Home: Hero (maxi headline clamp), 2 CTA, micro-animazione
 - [ ] Sezione Highlights (3 pillole)
 - [ ] Lista progetti (/work) con card e filtri base

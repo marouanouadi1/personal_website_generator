@@ -196,15 +196,15 @@ async function getPatchFromLLM(task: string): Promise<string> {
     log("info", "Generating repository tree");
     const tree = list(process.cwd());
 
-    const system = `Sei un agente che propone UNA singola patch diff unificata per completare il task richiesto.\nRequisiti:\n- Non modificare file fuori da allowedPaths se definiti.\n- Mantieni patch <= 300 linee.\n- Fornisci SOLO il diff unified senza markdown code blocks (no \`\`\`diff).\n- Formato standard git diff o unified diff applicabile con 'git apply'.`;
+    const system = `Sei un agente che propone UNA singola patch diff unificata per completare il task richiesto.\n\nREQUISITI CRITICI:\n- Fornisci ESCLUSIVAMENTE il contenuto della patch diff\n- NON includere testo descrittivo, piani, spiegazioni o commenti\n- NON usare markdown code blocks (no \`\`\`diff)\n- Inizia direttamente con "--- " per il primo file\n- Formato git diff standard applicabile con 'git apply'\n- Per file ESISTENTI: usa 'a/nomefile' e 'b/nomefile'\n- Per file NUOVI: usa '/dev/null' per '---' e 'b/nomefile' per '+++'\n- Per file da ELIMINARE: usa 'a/nomefile' per '---' e '/dev/null' per '+++'\n- Gli hunk header devono essere nel formato: @@ -start,count +start,count @@\n- Esempio hunk header corretto: @@ -1,3 +1,4 @@\n- Per file nuovo: @@ -0,0 +1,5 @@\n- Mantieni patch <= 300 linee\n- VERIFICA nel REPO TREE se un file esiste prima di decidere se è nuovo\n\nLa risposta deve iniziare immediatamente con "--- " e contenere solo il diff.`;
 
-    const userContent = `TASK SELEZIONATO:\n${task}\n\nPROMPT PRINCIPALE:\n${prompt}\n\nBACKLOG COMPLETO:\n${tasksMd}\n\nREPO TREE:\n${tree}\n\nFornisci ora SOLO la patch unified diff applicabile con 'git apply'.`;
+    const userContent = `TASK SELEZIONATO:\n${task}\n\nPROMPT PRINCIPALE:\n${prompt}\n\nBACKLOG COMPLETO:\n${tasksMd}\n\nREPO TREE (file esistenti):\n${tree}\n\nFILE CHE ESISTONO GIÀ (da MODIFICARE, non creare):\n- package.json (MODIFICARE con --- a/package.json +++ b/package.json)\n- README.md (MODIFICARE con --- a/README.md +++ b/README.md)\n- tsconfig.json (MODIFICARE con --- a/tsconfig.json +++ b/tsconfig.json)\n- vitest.config.ts (MODIFICARE con --- a/vitest.config.ts +++ b/vitest.config.ts)\n\nPer NUOVI file (non nell'elenco sopra): --- /dev/null +++ b/nomefile\n\nESEMPIO CORRETTO per modificare package.json:\n--- a/package.json\n+++ b/package.json\n@@ -1,6 +1,7 @@\n {\n   "name": "personal_website_generator",\n+  "version": "0.1.0",\n   "private": true,\n   "type": "module",\n\nRISPONDI SOLO CON IL DIFF. Inizia con "--- ".`;
 
     log("info", "Sending request to Anthropic API");
     const msg = await client.messages.create({
       model: "claude-sonnet-4-20250514",
-      max_tokens: 4000,
-      temperature: 0,
+      max_tokens: 8000, // Increased token limit
+      temperature: 0.1,
       system,
       messages: [
         {
@@ -233,8 +233,27 @@ async function getPatchFromLLM(task: string): Promise<string> {
       patch = patch.replace(/^```(diff)?\n/, "").replace(/\n```$/, "");
     }
 
-    // Clean up any extra whitespace
-    patch = patch.trim();
+    // Remove any text before the first "--- " line (explanations, plans, etc.)
+    const patchLines = patch.split("\n");
+    let firstDiffLineIndex = -1;
+
+    for (let i = 0; i < patchLines.length; i++) {
+      if (patchLines[i].startsWith("--- ")) {
+        firstDiffLineIndex = i;
+        break;
+      }
+    }
+
+    if (firstDiffLineIndex > 0) {
+      log("info", `Removing ${firstDiffLineIndex} lines of non-diff content`);
+      patch = patchLines.slice(firstDiffLineIndex).join("\n");
+    } else if (firstDiffLineIndex === -1) {
+      log("error", "No diff content found in AI response");
+      throw new Error("Nessun contenuto diff trovato nella risposta dell'AI");
+    }
+
+    // Clean up any extra whitespace and normalize line endings
+    patch = patch.trim().replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
     // Enhanced patch validation - check for diff markers anywhere in the content
     const hasDiffMarkers = /(?:^|\n)(?:diff --git|Index: |\+\+\+|---)/m.test(patch);
@@ -246,10 +265,56 @@ async function getPatchFromLLM(task: string): Promise<string> {
       throw new Error("La risposta del modello non sembra un diff valido");
     }
 
+    // Additional validation - check for proper patch structure
+    const responseLines = patch.split("\n");
+    let hasProperHeaders = false;
+
+    for (let i = 0; i < responseLines.length - 1; i++) {
+      if (
+        responseLines[i].startsWith("--- ") &&
+        responseLines[i + 1].startsWith("+++ ")
+      ) {
+        hasProperHeaders = true;
+        break;
+      }
+    }
+
+    if (!hasProperHeaders) {
+      log("error", "Patch missing proper --- and +++ headers");
+      throw new Error("Patch formato non valido: mancano header --- e +++");
+    }
+
+    // Validate hunk headers (@@)
+    for (let i = 0; i < responseLines.length; i++) {
+      const line = responseLines[i];
+      if (line.startsWith("@@")) {
+        // Check if it matches the pattern @@ -start,count +start,count @@
+        const hunkPattern = /^@@ -\d+,\d+ \+\d+,\d+ @@/;
+        if (!hunkPattern.test(line)) {
+          log("error", `Invalid hunk header at line ${i + 1}: "${line}"`);
+          throw new Error(`Hunk header non valido alla linea ${i + 1}: "${line}"`);
+        }
+      }
+    }
+
+    // Check if patch appears to be truncated
+    const lastLine = responseLines[responseLines.length - 1];
+    if (
+      lastLine &&
+      !lastLine.startsWith(" ") &&
+      !lastLine.startsWith("+") &&
+      !lastLine.startsWith("-") &&
+      !lastLine.startsWith("@@") &&
+      lastLine.trim() !== ""
+    ) {
+      log("warn", "Patch might be truncated - last line doesn't look like diff content");
+      log("warn", `Last line: "${lastLine}"`);
+    }
+
     // Check patch size
-    const patchLines = patch.split("\n").length;
-    if (patchLines > 500) {
-      log("warn", `Large patch detected: ${patchLines} lines`);
+    const patchLineCount = patch.split("\n").length;
+    if (patchLineCount > 500) {
+      log("warn", `Large patch detected: ${patchLineCount} lines`);
     }
 
     log("info", "Patch validation successful");
@@ -340,15 +405,51 @@ async function main() {
   const tmpPath = path.join(os.tmpdir(), "ai_patch.diff");
   try {
     log("info", "Writing patch to temporary file");
-    fs.writeFileSync(tmpPath, patch);
+
+    // Convert CRLF to LF for git compatibility
+    const normalizedPatch = patch.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    fs.writeFileSync(tmpPath, normalizedPatch, { encoding: "utf8" });
+
+    // Log the patch for debugging
+    log("info", "Patch content preview:");
+    const patchLines = normalizedPatch.split("\n");
+    const previewLines = patchLines.slice(0, 20).join("\n");
+    log("info", previewLines);
+
+    if (patchLines.length > 20) {
+      log("info", `... (${patchLines.length - 20} more lines)`);
+    }
+
+    // Check lines around potential corruption point
+    if (patchLines.length > 48) {
+      log("info", "Lines around line 48:");
+      const start = Math.max(0, 48 - 5);
+      const end = Math.min(patchLines.length, 48 + 5);
+      for (let i = start; i < end; i++) {
+        log("info", `Line ${i + 1}: "${patchLines[i]}"`);
+      }
+    }
 
     log("info", "Applying patch");
     sh(`git apply "${tmpPath}"`);
     log("info", "Patch applied successfully");
   } catch (e) {
     log("error", "Patch could not be applied");
-    log("error", "Patch content:");
+    log("error", "Full patch content:");
     log("error", patch);
+
+    // Try to get more details about why it failed
+    try {
+      const checkResult = execSync(`git apply --check "${tmpPath}"`, {
+        encoding: "utf8",
+      });
+      log("info", "Patch check result:");
+      log("info", checkResult);
+    } catch (checkError: any) {
+      log("error", "Patch check error:");
+      log("error", checkError.message);
+    }
+
     throw new Error("Patch non applicabile");
   } finally {
     // Clean up temporary file
