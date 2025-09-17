@@ -17,12 +17,12 @@ jobs:
       - uses: pnpm/action-setup@v3
         with: { version: 9 }
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: "20" }
       - run: pnpm i
       - name: Esegui runner
         run: node scripts/ai-run.ts
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }} # o il provider che preferisci
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # OpenAI API key
       - name: Upload journal
         uses: actions/upload-artifact@v4
         with:

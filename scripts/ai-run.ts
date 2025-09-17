@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { execSync } from "node:child_process";
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import "dotenv/config";
 
 function log(level: "info" | "error" | "warn", message: string) {
@@ -144,9 +144,9 @@ function sh(cmd: string, options?: { ignoreError?: boolean }) {
 }
 
 async function getPatchFromLLM(task: string): Promise<string> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error("Missing ANTHROPIC_API_KEY env var");
+    throw new Error("Missing OPENAI_API_KEY env var");
   }
 
   function list(dir: string, depth = 0): string {
@@ -173,8 +173,8 @@ async function getPatchFromLLM(task: string): Promise<string> {
   }
 
   try {
-    log("info", "Initializing Anthropic client");
-    const client = new Anthropic({ apiKey });
+    log("info", "Initializing OpenAI client");
+    const client = new OpenAI({ apiKey });
 
     // Gather prompt ingredients with error handling
     let prompt = "";
@@ -200,13 +200,16 @@ async function getPatchFromLLM(task: string): Promise<string> {
 
     const userContent = `TASK SELEZIONATO:\n${task}\n\nPROMPT PRINCIPALE:\n${prompt}\n\nBACKLOG COMPLETO:\n${tasksMd}\n\nREPO TREE:\n${tree}\n\nFornisci ora SOLO la patch unified diff applicabile con 'git apply'.`;
 
-    log("info", "Sending request to Anthropic API");
-    const msg = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
+    log("info", "Sending request to OpenAI API");
+    const completion = await client.chat.completions.create({
+      model: "gpt-4o",
       max_tokens: 4000,
       temperature: 0,
-      system,
       messages: [
+        {
+          role: "system",
+          content: system,
+        },
         {
           role: "user",
           content: userContent,
@@ -215,13 +218,7 @@ async function getPatchFromLLM(task: string): Promise<string> {
     });
 
     // Extract text content
-    type MessageContent =
-      | { type: "text"; text: string }
-      | { type: string; [key: string]: unknown };
-    const textParts = (msg.content as MessageContent[])
-      .filter((c) => c.type === "text")
-      .map((c) => (c.type === "text" ? c.text : ""))
-      .join("\n");
+    const textParts = completion.choices[0]?.message?.content || "";
 
     log("info", `Received response of ${textParts.length} characters`);
 
@@ -315,7 +312,7 @@ async function main() {
   }
 
   // 3) Ottieni patch dall'AI
-  log("info", `Richiedo patch a Claude Sonnet per il task: ${next}`);
+  log("info", `Richiedo patch a GPT-4o per il task: ${next}`);
   let patch: string;
   try {
     patch = await getPatchFromLLM(next);

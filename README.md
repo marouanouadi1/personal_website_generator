@@ -14,7 +14,7 @@ An AI-powered development assistant that automatically implements features, fixe
 
    ```bash
    cp .env.example .env
-   # Add your ANTHROPIC_API_KEY to .env
+   # Add your OPENAI_API_KEY to .env
    ```
 
 3. **Run the AI assistant:**
@@ -24,7 +24,7 @@ An AI-powered development assistant that automatically implements features, fixe
 
 ## 🤖 How It Works
 
-The AI assistant (`scripts/ai-run.ts`) uses Claude Sonnet (Anthropic) to:
+The AI assistant (`scripts/ai-run.ts`) uses GPT-4o (OpenAI) to:
 
 1. **📋 Read Tasks**: Gets the first uncompleted task from `ai/TASKS.md`
 2. **🌿 Create Branch**: Creates a new branch `ai/<task-slug>`
@@ -199,11 +199,11 @@ npm run cleanup:dry -- --verbose # Verbose cleanup preview
 
 ## 🔑 Environment Variables
 
-- `ANTHROPIC_API_KEY` - Required for AI functionality
+- `OPENAI_API_KEY` - Required for AI functionality
 
 ## 🚧 Technical Details
 
-- **AI Model**: Claude Sonnet 4 (claude-sonnet-4-20250514)
+- **AI Model**: GPT-4o (gpt-4o)
 - **Patch Limit**: 300 lines (configurable)
 - **Node Version**: 18+ required
 - **Package Manager**: npm/pnpm supported

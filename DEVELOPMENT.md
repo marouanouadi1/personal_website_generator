@@ -11,7 +11,7 @@ This project uses AI-powered automation to complete development tasks. The AI as
 - Node.js 18+
 - npm or pnpm
 - Git
-- Anthropic API key
+- OpenAI API key
 
 ### Setup
 
@@ -25,7 +25,7 @@ This project uses AI-powered automation to complete development tasks. The AI as
 
    ```bash
    cp .env.example .env
-   # Add your ANTHROPIC_API_KEY to .env
+   # Add your OPENAI_API_KEY to .env
    ```
 
 3. **Validate setup:**
