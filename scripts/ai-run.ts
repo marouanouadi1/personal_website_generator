@@ -29,6 +29,108 @@ function log(level: "info" | "error" | "warn", message: string) {
   }
 }
 
+class PatchValidationError extends Error {
+  public readonly issues: string[];
+
+  constructor(message: string, issues: string[]) {
+    super(message);
+    this.name = "PatchValidationError";
+    this.issues = issues;
+  }
+}
+
+type PatchChangeType = "new" | "delete" | "modify" | "rename";
+
+interface PatchChange {
+  type: PatchChangeType;
+  oldPath: string;
+  newPath: string;
+}
+
+function normalizeDiffPath(diffPath: string): string {
+  const [rawPath] = diffPath.trim().split(/\s+/);
+  if (!rawPath || rawPath === "/dev/null") {
+    return rawPath;
+  }
+
+  return rawPath.replace(/^a\//, "").replace(/^b\//, "");
+}
+
+function extractPatchChanges(patch: string): PatchChange[] {
+  const changes: PatchChange[] = [];
+  const lines = patch.split("\n");
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.startsWith("--- ")) {
+      continue;
+    }
+
+    const nextLine = lines[i + 1];
+    if (!nextLine || !nextLine.startsWith("+++ ")) {
+      continue;
+    }
+
+    const oldPath = normalizeDiffPath(line.slice(4));
+    const newPath = normalizeDiffPath(nextLine.slice(4));
+
+    if (!oldPath && !newPath) {
+      continue;
+    }
+
+    if (oldPath === "/dev/null" && newPath && newPath !== "/dev/null") {
+      changes.push({ type: "new", oldPath: "", newPath });
+    } else if (newPath === "/dev/null" && oldPath && oldPath !== "/dev/null") {
+      changes.push({ type: "delete", oldPath, newPath: "" });
+    } else if (oldPath && newPath && oldPath !== newPath) {
+      changes.push({ type: "rename", oldPath, newPath });
+    } else if (oldPath && newPath) {
+      changes.push({ type: "modify", oldPath, newPath });
+    }
+  }
+
+  return changes;
+}
+
+function validatePatchAgainstRepository(patch: string) {
+  const issues: string[] = [];
+  const changes = extractPatchChanges(patch);
+
+  for (const change of changes) {
+    if (change.type === "new") {
+      if (fs.existsSync(path.join(process.cwd(), change.newPath))) {
+        issues.push(
+          `Il file "${change.newPath}" esiste già ma la patch lo tratta come nuovo.`,
+        );
+      }
+      continue;
+    }
+
+    const oldPath = path.join(process.cwd(), change.oldPath);
+    if (!fs.existsSync(oldPath)) {
+      issues.push(
+        `Il file "${change.oldPath}" non esiste nel repository ma la patch richiede di modificarlo o eliminarlo.`,
+      );
+    }
+
+    if (change.type === "rename" && change.newPath !== change.oldPath) {
+      const newPath = path.join(process.cwd(), change.newPath);
+      if (fs.existsSync(newPath)) {
+        issues.push(
+          `Il file di destinazione "${change.newPath}" esiste già e impedisce la rinomina dalla patch.`,
+        );
+      }
+    }
+  }
+
+  if (issues.length > 0) {
+    throw new PatchValidationError(
+      "La patch ricevuta non è compatibile con lo stato corrente del repository.",
+      issues,
+    );
+  }
+}
+
 function sh(cmd: string, options?: { ignoreError?: boolean }) {
   try {
     log("info", `Executing: ${cmd}`);
@@ -219,6 +321,18 @@ async function main() {
     patch = await getPatchFromLLM(next);
   } catch (error) {
     log("error", "Failed to get patch from AI");
+    throw error;
+  }
+
+  try {
+    validatePatchAgainstRepository(patch);
+  } catch (error) {
+    if (error instanceof PatchValidationError) {
+      log("error", error.message);
+      for (const issue of error.issues) {
+        log("error", issue);
+      }
+    }
     throw error;
   }
 
