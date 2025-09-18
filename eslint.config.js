@@ -1,29 +1,71 @@
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import globals from 'globals';
+import eslint from "@eslint/js";
+import nextPlugin from "@next/eslint-plugin-next";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+
+const { extends: _nextExtends, plugins: _nextPlugins, ...nextCoreWebVitalsRest } =
+  nextPlugin.configs["core-web-vitals"];
+
+const nextCoreWebVitals = {
+  ...nextCoreWebVitalsRest,
+  plugins: {
+    "@next/next": nextPlugin,
+  },
+};
 
 export default tseslint.config(
-  // Ignora cartelle
-  { ignores: ['dist', 'node_modules'] },
-
-  // Regole per TypeScript
   {
-    files: ['**/*.{ts,tsx}'],
+    ignores: ["dist", "node_modules", ".next"],
+  },
+  {
+    plugins: {
+      "@next/next": nextPlugin,
+    },
+  },
+  {
+    files: ["**/*.{ts,tsx}"],
     extends: [
       eslint.configs.recommended,
-      ...tseslint.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
     ],
     languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: 'module',
+      parserOptions: {
+        project: ["./tsconfig.json", "./tsconfig.scripts.json"],
+        tsconfigRootDir: process.cwd(),
+      },
       globals: {
         ...globals.node,
         ...globals.es2022,
       },
     },
     rules: {
-      // come nella tua .eslintrc
-      '@typescript-eslint/no-explicit-any': 'off',
+      "@typescript-eslint/no-explicit-any": "off",
     },
-  }
+  },
+  {
+    files: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "lib/**/*.{ts,tsx}"],
+    ...nextCoreWebVitals,
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.es2022,
+      },
+    },
+  },
+  {
+    files: ["scripts/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}", "codex/**/*.{ts,tsx}"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.es2022,
+      },
+    },
+  },
+  {
+    files: ["next-env.d.ts"],
+    rules: {
+      "@typescript-eslint/triple-slash-reference": "off",
+    },
+  },
 );

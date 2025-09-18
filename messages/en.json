@@ -1,0 +1,16 @@
+{
+  "index": {
+    "eyebrow": "Launch faster",
+    "title": "Craft personal websites with confidence",
+    "description": "Start from a modern Next.js foundation with Tailwind CSS, shadcn/ui, and localized content ready to extend.",
+    "primaryCta": "Create a project",
+    "secondaryCta": "Explore the stack"
+  },
+  "localeSwitcher": {
+    "label": "Switch language",
+    "options": {
+      "en": "English",
+      "it": "Italiano"
+    }
+  }
+}

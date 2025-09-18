@@ -165,14 +165,16 @@ export function loadCodexConfig(configPath = "codex/config.json"): CodexConfig {
   try {
     rawContent = fs.readFileSync(absolutePath, "utf8");
   } catch (error) {
-    throw new Error(`Unable to read config file: ${error}`);
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`Unable to read config file: ${message}`);
   }
 
   let parsed: unknown;
   try {
     parsed = JSON.parse(rawContent);
   } catch (error) {
-    throw new Error(`Invalid JSON in config file: ${error}`);
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`Invalid JSON in config file: ${message}`);
   }
 
   const validation = validateCodexConfig(parsed, {

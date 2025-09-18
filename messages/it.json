@@ -1,0 +1,16 @@
+{
+  "index": {
+    "eyebrow": "Lancia più velocemente",
+    "title": "Crea siti personali con sicurezza",
+    "description": "Parti da una base moderna con Next.js, Tailwind CSS, shadcn/ui e contenuti già localizzati.",
+    "primaryCta": "Crea un progetto",
+    "secondaryCta": "Esplora lo stack"
+  },
+  "localeSwitcher": {
+    "label": "Cambia lingua",
+    "options": {
+      "en": "English",
+      "it": "Italiano"
+    }
+  }
+}

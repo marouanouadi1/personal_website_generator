@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "types": ["node"],
+    "allowJs": false,
+    "noEmit": false,
+    "declaration": false
+  },
+  "include": [
+    "scripts/**/*.ts",
+    "codex/**/*.ts",
+    "tests/**/*.ts",
+    "tailwind.config.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}
