@@ -14,3 +14,7 @@ Commit: 1e7af738870137f3856d28bd8a9688c3136f62e6, 1cc5d709c64802c9361fb4754c523d
 Task: Create the Highlights section with three interactive pills
 Summary: Introduced a client-side highlights section on the localized home page with focusable pills and a descriptive panel, wired it to structured locale content, and refreshed English/Italian strings. Validated linting, type checks, and tests.
 Commit: 525ecdf8c6cc9c0f0daadca014b27b99da451664
+## 2025-09-18T21:37:55Z
+Task: Implement the /work listing with filterable project cards
+Summary: Added a localized /work page that hydrates a new WorkListing component with translation-backed metadata, enabling focus filters and responsive project cards in both languages. Ran lint, type check, and tests to verify the update.
+Commit: 693982712bf17654965487fe692a68f13bfa2ee0
