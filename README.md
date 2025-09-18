@@ -57,6 +57,7 @@ The AI assistant (`scripts/ai-run.ts`) uses GPT-4o (OpenAI) to:
 
 ```bash
 npm run ai:run              # Run AI assistant
+npm run ai:agent            # Run interactive tool-using AI agent loop
 npm run ai:tasks            # List all tasks
 npm run ai:tasks:next       # Show next priority task
 npm run ai:config:validate  # Validate AI configuration
