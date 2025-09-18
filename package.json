@@ -4,7 +4,6 @@
   "type": "module",
   "version": "0.1.0",
   "scripts": {
-    "dev": "echo 'dev placeholder'",
     "build": "tsc -p .",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -17,24 +16,11 @@
     "prettier:fix": "prettier --write .",
     "format": "npm run prettier:fix && npm run lint:fix",
     "validate": "npm run lint && npm run typecheck && npm run test && npm run build",
-    "ai:run": "tsx scripts/ai-run.ts",
-    "ai:config:validate": "tsx scripts/config-validator.ts",
-    "ai:tasks": "tsx scripts/task-manager.ts list",
-    "ai:tasks:next": "tsx scripts/task-manager.ts next",
-    "ai:git:status": "tsx scripts/git-utils.ts status",
-    "ai:git:cleanup": "tsx scripts/git-utils.ts cleanup",
-    "ai:git:cleanup:dry": "tsx scripts/git-utils.ts cleanup --dry-run",
-    "cleanup": "tsx scripts/project-utils.ts cleanup",
-    "cleanup:dry": "tsx scripts/project-utils.ts cleanup --dry-run",
-    "cleanup:deep": "tsx scripts/project-utils.ts cleanup --deep",
-    "project:validate": "tsx scripts/project-utils.ts validate",
-    "project:report": "tsx scripts/project-utils.ts report",
+    "codex:config": "tsx scripts/codex-validate.ts",
+    "codex:loop": "tsx scripts/codex-loop.ts",
     "prepare": "npm run validate"
   },
-  "dependencies": {
-    "openai": "^4.47.1",
-    "dotenv": "^16.4.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^20.12.12",
     "@typescript-eslint/eslint-plugin": "^7.8.0",

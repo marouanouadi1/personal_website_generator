@@ -2,318 +2,84 @@
 
 ## Overview
 
-This project uses AI-powered automation to complete development tasks. The AI assistant can automatically implement features, fix bugs, and make improvements based on tasks defined in `ai/TASKS.md`.
+The project now relies on the `@openai/codex` command-line interface instead of a bespoke API runner. The automation philosophy is simple: keep a clean repository with well-documented prompts and let the Codex CLI iterate over the backlog inside a headless shell loop.
 
-## Getting Started
-
-### Prerequisites
+## Prerequisites
 
 - Node.js 18+
-- npm or pnpm
+- npm
 - Git
-- OpenAI API key
+- An OpenAI API key exported as `OPENAI_API_KEY`
+- The Codex CLI installed globally: `npm install -g @openai/codex`
 
-### Setup
+## Setup Steps
 
-1. **Install dependencies:**
+1. Install project dependencies:
 
    ```bash
    npm install
    ```
 
-2. **Configure environment:**
+2. Verify the Codex configuration:
 
    ```bash
-   cp .env.example .env
-   # Add your OPENAI_API_KEY to .env
+   npm run codex:config
    ```
 
-3. **Validate setup:**
+3. Print the ready-to-run loop command:
+
    ```bash
-   npm run project:validate
+   npm run codex:loop
    ```
 
-## AI Assistant Usage
+4. Copy the command into a terminal session (inside WSL or your shell of choice) to start the automation.
 
-### Running the AI Assistant
+## Running the Loop
 
-```bash
-npm run ai:run
-```
+1. Ensure you are in the repository directory and that `OPENAI_API_KEY` is exported.
+2. Paste the snippet produced by `npm run codex:loop`.
+3. Optionally wrap the loop in `tmux`, `screen`, or a background job when running long sessions.
+4. Inspect `codex/journal.md` periodically to track progress.
 
-The AI assistant will:
+## Managing Loop Assets
 
-1. Read the first uncompleted task from `ai/TASKS.md`
-2. Create a new branch (`ai/task-name`)
-3. Generate and apply a patch to implement the task
-4. Run quality checks (lint, typecheck, test, build)
-5. Commit the changes
-6. Update the project journal
+All artefacts that steer the automation live in `codex/`:
 
-### Configuration
+- **`prompt.md`** – Update this to change how the agent behaves each iteration.
+- **`tasks.md`** – Maintain the backlog manually. Completed tasks should be checked off by humans to keep intent clear.
+- **`constraints.md`** – Tighten or relax guard rails here when you need to restrict file access.
+- **`journal.md`** – The agent appends context after each loop. Review or prune as needed.
+- **`scratchpad/`** – Ephemeral workspace for the loop. Safe to clear between sessions.
 
-Edit `ai/config.json` to customize AI behavior:
+## Helper Scripts
 
-```json
-{
-  "allowedPaths": ["app", "components", "lib", "scripts"],
-  "branchPrefix": "ai/",
-  "maxChangedLines": 300,
-  "commands": {
-    "lint": "npm run lint",
-    "typecheck": "npm run typecheck",
-    "test": "npm test",
-    "build": "npm run build"
-  },
-  "retry": 2
-}
-```
+The TypeScript utilities under `scripts/` provide lightweight assistance:
 
-**Configuration Options:**
+- `codex-config.ts` – Validates and loads `codex/config.json`.
+- `codex-loop.ts` – Prints the canonical `while` loop command.
+- `codex-validate.ts` – Simple CLI wrapper used by `npm run codex:config`.
 
-- `allowedPaths`: Directories the AI can modify
-- `branchPrefix`: Prefix for AI-created branches
-- `maxChangedLines`: Maximum lines per patch
-- `commands`: Quality check commands to run
-- `retry`: Number of retry attempts
+Feel free to extend these helpers or add new ones if you find repetitive chores worth automating.
 
-### Task Management
+## Quality Checks
 
-#### Task Format
-
-Tasks in `ai/TASKS.md` should follow this format:
-
-```markdown
-# Tasks
-
-- [ ] Implement user authentication
-- [x] Add database schema
-- [ ] Create API endpoints [!!!] #urgent
-- [ ] Write unit tests [!!] #testing
-- [ ] Update documentation [!] #docs
-```
-
-**Task Features:**
-
-- `[ ]` = pending task
-- `[x]` = completed task
-- `[!]` = low priority
-- `[!!]` = medium priority
-- `[!!!]` = high priority
-- `#tag` = task tags
-
-#### Task Commands
+Even though the loop is headless, keep the codebase healthy:
 
 ```bash
-# List all tasks with statistics
-npm run ai:tasks
-
-# Show next priority task
-npm run ai:tasks:next
-
-# Mark task as complete
-npx tsx scripts/task-manager.ts complete "task description"
-
-# Add new task
-npx tsx scripts/task-manager.ts add "new task" medium
+npm run lint       # ESLint
+npm run typecheck  # TypeScript in no-emit mode
+npm run test       # Vitest suite for helper scripts
+npm run build      # Emit compiled helpers to dist/
+npm run validate   # Runs all of the above sequentially
 ```
 
-## Quality Assurance
+Run these commands manually when iterating on the automation tooling. They are also safe to execute from the Codex loop if you decide to enforce checks per iteration.
 
-### Automated Checks
+## Tips for Loop Sessions
 
-The AI assistant runs these quality checks automatically:
+- Start with shorter `delaySeconds` in `codex/config.json` while experimenting, then increase for overnight runs.
+- Keep the backlog focused—fewer, well-defined tasks lead to higher quality commits.
+- Archive journals and scratchpad files after large sessions to keep Git history tidy.
+- When you need to pause automation, simply terminate the loop and pick up where it left off later.
 
-- **Linting:** ESLint with TypeScript rules
-- **Type Checking:** TypeScript compiler
-- **Testing:** Vitest test runner
-- **Building:** TypeScript compilation
-
-### Manual Commands
-
-```bash
-# Run all quality checks
-npm run validate
-
-# Individual checks
-npm run lint
-npm run typecheck
-npm run test
-npm run build
-
-# Fix formatting and linting
-npm run format
-```
-
-## Project Utilities
-
-### Configuration Validation
-
-```bash
-# Validate AI configuration
-npm run ai:config:validate
-
-# Full project validation
-npm run project:validate
-```
-
-### Git Management
-
-```bash
-# Check git status
-npm run ai:git:status
-
-# Cleanup AI branches (preview)
-npm run ai:git:cleanup:dry
-
-# Cleanup AI branches
-npm run ai:git:cleanup
-```
-
-### Project Maintenance
-
-```bash
-# Clean temporary files (preview)
-npm run cleanup:dry
-
-# Clean temporary files
-npm run cleanup
-
-# Deep clean (includes node_modules)
-npm run cleanup:deep
-
-# Generate project report
-npm run project:report
-```
-
-## Safety Features
-
-### Branch Isolation
-
-- All AI changes happen in separate branches
-- Main branch remains protected
-- Easy to review and merge changes
-
-### Quality Gates
-
-- Automatic linting and type checking
-- Test suite execution
-- Build verification before commit
-
-### Change Limits
-
-- Maximum patch size restrictions
-- File path restrictions via `allowedPaths`
-- Retry limits for failed attempts
-
-### Rollback Options
-
-- Git history preserved
-- Easy branch deletion
-- Dry-run modes for testing
-
-## Best Practices
-
-### Writing Good Tasks
-
-✅ **Good:**
-
-```markdown
-- [ ] Add user registration form with email validation [!!] #auth
-- [ ] Implement JWT token refresh mechanism [!!!] #security
-- [ ] Write tests for user service methods [!] #testing
-```
-
-❌ **Avoid:**
-
-```markdown
-- [ ] Fix stuff
-- [ ] Make it better
-- [ ] Update the thing
-```
-
-### Task Prioritization
-
-- **High Priority `[!!!]`**: Critical bugs, security issues
-- **Medium Priority `[!!]`**: Important features, performance improvements
-- **Low Priority `[!]`**: Nice-to-have features, documentation
-- **No Priority**: General maintenance, cleanup
-
-### Using Tags
-
-Common tag conventions:
-
-- `#bug` - Bug fixes
-- `#feature` - New features
-- `#refactor` - Code refactoring
-- `#docs` - Documentation updates
-- `#test` - Testing improvements
-- `#security` - Security-related changes
-- `#performance` - Performance optimizations
-
-## Troubleshooting
-
-### Common Issues
-
-**AI fails to apply patch:**
-
-- Check if files are locked or have conflicts
-- Verify `allowedPaths` configuration
-- Review patch size limits
-
-**Quality checks fail:**
-
-- Run checks manually to identify issues
-- Fix linting/type errors before retrying
-- Update test cases if needed
-
-**Branch conflicts:**
-
-- Clean up old AI branches: `npm run ai:git:cleanup`
-- Ensure working directory is clean
-- Switch to main branch before running AI
-
-### Debug Commands
-
-```bash
-# Verbose cleanup with dry-run
-npx tsx scripts/project-utils.ts cleanup --dry-run --verbose
-
-# Check git status in detail
-npx tsx scripts/git-utils.ts status
-
-# Validate configuration with details
-npx tsx scripts/config-validator.ts
-```
-
-## File Structure
-
-```
-project/
-├── ai/                    # AI configuration and data
-│   ├── config.json       # AI assistant configuration
-│   ├── TASKS.md          # Task definitions
-│   ├── JOURNAL.md        # AI activity log
-│   ├── PROMPT.md         # AI system prompt
-│   └── CONSTRAINTS.md    # AI constraints and rules
-├── scripts/              # Automation scripts
-│   ├── ai-run.ts         # Main AI assistant
-│   ├── config-validator.ts # Configuration validation
-│   ├── git-utils.ts      # Git utilities
-│   ├── task-manager.ts   # Task management
-│   └── project-utils.ts  # Project utilities
-├── tests/                # Test files
-└── package.json          # Project configuration
-```
-
-## Contributing
-
-1. Add tasks to `ai/TASKS.md` with clear descriptions
-2. Use appropriate priority levels and tags
-3. Run `npm run project:validate` before committing
-4. Review AI-generated changes before merging
-5. Update documentation as needed
-
-## License
-
-This project is private and not licensed for public use.
+With the API code removed and the CLI workflow in place, maintaining the personal website generator is now as simple as editing markdown files and nudging the Codex loop when you are ready for progress.
