@@ -50,6 +50,25 @@ The AI assistant will:
 5. Commit the changes
 6. Update the project journal
 
+### Running the Tool-Using Agent Loop
+
+```bash
+npm run ai:agent
+```
+
+This mode launches a multi-step agent that uses function calls to inspect files, run commands, edit the repository directly, and
+create commits by invoking the `finalize_task` tool when finished. The agent will:
+
+1. Load the next pending task from `ai/TASKS.md`
+2. Switch to or create a dedicated task branch
+3. Iteratively inspect and modify files using the provided tools
+4. Run project commands (lint, typecheck, test, build) on demand via the `run_command` tool
+5. Stage, commit, and optionally push changes through the `finalize_task` tool
+6. Append an entry to `ai/JOURNAL.md` recording the commit
+
+The agent is constrained to the directories listed in `ai/config.json` under `allowedPaths`. Update the config to expand the
+editable surface area if needed.
+
 ### Configuration
 
 Edit `ai/config.json` to customize AI behavior:

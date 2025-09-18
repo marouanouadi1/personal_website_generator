@@ -18,6 +18,7 @@
     "format": "npm run prettier:fix && npm run lint:fix",
     "validate": "npm run lint && npm run typecheck && npm run test && npm run build",
     "ai:run": "tsx scripts/ai-run.ts",
+    "ai:agent": "tsx scripts/ai-agent-loop.ts",
     "ai:config:validate": "tsx scripts/config-validator.ts",
     "ai:tasks": "tsx scripts/task-manager.ts list",
     "ai:tasks:next": "tsx scripts/task-manager.ts next",
