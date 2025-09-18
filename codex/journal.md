@@ -26,3 +26,7 @@ Commit: 08140492717e25eb3c1cbd2ec3d15ffdca7ed2fe
 Task: Draft a reusable Case Study template (MDX SFDRR) with one filled example
 Summary: Verified the existing case study implementation meets the backlog goals and marked the task complete now that the template plus example are live. Re-ran lint, type checks, and tests to confirm nothing regressed.
 Commit: a1e72483825a1decf5953dccb5242de5837b3ade
+## 2025-09-18T23:22:04Z
+Task: Assemble the About page with a navigable CV
+Summary: Added a localized /about route that renders hero copy, a sticky in-page navigation, and structured CV sections populated from new English/Italian translations. Validated the page by running lint, type checks, and tests.
+Commit: 8bd16e993ed26623b42d3ed2c7499034f10eb112
