@@ -20,17 +20,19 @@
     "codex:loop": "tsx scripts/codex-loop.ts",
     "prepare": "npm run validate"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@types/node": "^20.12.12",
-    "@typescript-eslint/eslint-plugin": "^7.8.0",
-    "@typescript-eslint/parser": "^7.8.0",
-    "@vitest/coverage-v8": "^1.6.0",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "tsx": "^4.7.0",
-    "typescript": "^5.4.5",
-    "vitest": "^1.6.0"
+    "@eslint/js": "^9.35.0",
+    "@types/node": "^24.5.2",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.35.0",
+    "globals": "^16.4.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.0",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=18.0.0"
