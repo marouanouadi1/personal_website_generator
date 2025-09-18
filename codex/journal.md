@@ -6,3 +6,7 @@ Commit: n/a (planning)
 Task: Setup project scaffolding with Next.js, Tailwind CSS, shadcn/ui, and next-intl (it/en)
 Summary: Added a Next.js app router foundation with Tailwind, shadcn/ui baseline utilities, locale-aware middleware, and next-intl wiring plus starter content/locales (en/it). Updated tooling to support the new stack and ensured lint, tests, and build succeed.
 Commit: 7bca67e1d95e7b229d961aecaf047f6a13085a96
+## 2025-09-18T21:16:00Z
+Task: Build the home hero section with responsive clamp typography, two CTAs, and a lightweight entrance animation
+Summary: Reworked the localized home hero with clamp-driven heading/body styles, responsive CTA layout, and staged fade/slide-in animations while keeping existing copy + locale switcher intact. Validated lint, type check, and tests.
+Commit: 1e7af738870137f3856d28bd8a9688c3136f62e6
