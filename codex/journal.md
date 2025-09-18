@@ -18,3 +18,7 @@ Commit: 525ecdf8c6cc9c0f0daadca014b27b99da451664
 Task: Implement the /work listing with filterable project cards
 Summary: Added a localized /work page that hydrates a new WorkListing component with translation-backed metadata, enabling focus filters and responsive project cards in both languages. Ran lint, type check, and tests to verify the update.
 Commit: 693982712bf17654965487fe692a68f13bfa2ee0
+## 2025-09-18T22:20:31Z
+Task: Draft a reusable Case Study template (MDX SFDRR) with one filled example
+Summary: Enabled MDX support with a reusable case study component library, dynamic /[locale]/work/[slug] route, and the inaugural Atlas Commerce case study content. Updated the work listing to surface case study links and validated lint, typecheck, and tests.
+Commit: 08140492717e25eb3c1cbd2ec3d15ffdca7ed2fe
