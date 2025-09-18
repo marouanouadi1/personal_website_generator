@@ -1,6 +1,11 @@
 import type { Route } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import {
+  HighlightsSection,
+  type HighlightItem,
+  type HighlightsSectionProps,
+} from "@/components/highlights-section";
 import { Button } from "@/components/ui/button";
 import { locales, type Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
@@ -16,6 +21,13 @@ export default async function HomePage({ params }: HomePageProps) {
   const locale = rawLocale as Locale;
   const t = await getTranslations("index");
   const switcher = await getTranslations("localeSwitcher");
+  const rawHighlights = t.raw("highlights") as Omit<HighlightsSectionProps, "items"> & {
+    items: Record<string, HighlightItem>;
+  };
+  const highlights: HighlightsSectionProps = {
+    ...rawHighlights,
+    items: Object.values(rawHighlights.items),
+  };
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center gap-12 px-6 py-[clamp(4rem,12vh,7.5rem)]">
@@ -39,6 +51,8 @@ export default async function HomePage({ params }: HomePageProps) {
           <Link href={toLocaleRoute(locale)}>{t("primaryCta")}</Link>
         </Button>
       </div>
+
+      <HighlightsSection {...highlights} />
 
       <div className="border-t pt-6 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 sm:pt-8">
         <p className="text-sm font-semibold text-muted-foreground">

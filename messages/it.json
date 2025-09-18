@@ -4,7 +4,29 @@
     "title": "Crea siti personali con sicurezza",
     "description": "Parti da una base moderna con Next.js, Tailwind CSS, shadcn/ui e contenuti già localizzati.",
     "primaryCta": "Crea un progetto",
-    "secondaryCta": "Esplora lo stack"
+    "secondaryCta": "Esplora lo stack",
+    "highlights": {
+      "eyebrow": "In evidenza",
+      "title": "Produttività fin dal primo commit",
+      "description": "Tre vantaggi già inclusi per lanciare siti personali senza reinventare le basi.",
+      "items": {
+        "interfaceSystem": {
+          "id": "interface-system",
+          "title": "Sistema di interfaccia componibile",
+          "description": "Velocizza la consegna con i componenti shadcn/ui collegati ai token Tailwind e pronti da personalizzare."
+        },
+        "contentLocalization": {
+          "id": "content-localization",
+          "title": "Localizzazione orientata ai contenuti",
+          "description": "Servi pubblici multilingue con next-intl e il routing per lingua già configurato."
+        },
+        "automationTooling": {
+          "id": "automation-tooling",
+          "title": "Tooling pronto per l'automazione",
+          "description": "Affidati a script tipizzati, linting e test che mantengono prevedibili le esecuzioni future e la CI."
+        }
+      }
+    }
   },
   "localeSwitcher": {
     "label": "Cambia lingua",

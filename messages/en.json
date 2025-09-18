@@ -4,7 +4,29 @@
     "title": "Craft personal websites with confidence",
     "description": "Start from a modern Next.js foundation with Tailwind CSS, shadcn/ui, and localized content ready to extend.",
     "primaryCta": "Create a project",
-    "secondaryCta": "Explore the stack"
+    "secondaryCta": "Explore the stack",
+    "highlights": {
+      "eyebrow": "Highlights",
+      "title": "Stay productive from the first commit",
+      "description": "Three built-in advantages to help you launch personal sites without reinventing the basics.",
+      "items": {
+        "interfaceSystem": {
+          "id": "interface-system",
+          "title": "Composable interface system",
+          "description": "Ship faster with shadcn/ui primitives wired to Tailwind tokens and ready for your own flavor."
+        },
+        "contentLocalization": {
+          "id": "content-localization",
+          "title": "Content-first localization",
+          "description": "Serve multilingual audiences using next-intl with locale-aware routing already configured."
+        },
+        "automationTooling": {
+          "id": "automation-tooling",
+          "title": "Automation-friendly tooling",
+          "description": "Rely on typed scripts, linting, and tests that keep future automation and CI runs predictable."
+        }
+      }
+    }
   },
   "localeSwitcher": {
     "label": "Switch language",
