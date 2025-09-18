@@ -18,29 +18,29 @@ export default async function HomePage({ params }: HomePageProps) {
   const switcher = await getTranslations("localeSwitcher");
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center gap-10 px-6 py-16 sm:py-24">
-      <div className="space-y-4">
+    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center gap-12 px-6 py-[clamp(4rem,12vh,7.5rem)]">
+      <section className="space-y-5 animate-in fade-in slide-in-from-bottom-8 duration-700">
         <p className="text-sm font-medium uppercase tracking-[0.28em] text-muted-foreground">
           {t("eyebrow")}
         </p>
-        <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+        <h1 className="text-balance text-[clamp(2.75rem,6vw,4rem)] font-semibold tracking-tight text-foreground">
           {t("title")}
         </h1>
-        <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">
+        <p className="max-w-3xl text-balance text-[clamp(1.05rem,1.5vw,1.35rem)] text-muted-foreground">
           {t("description")}
         </p>
-      </div>
+      </section>
 
-      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
-        <Button variant="secondary" asChild>
+      <div className="flex flex-col-reverse gap-3 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 sm:flex-row sm:items-center sm:justify-start sm:gap-4">
+        <Button variant="secondary" asChild className="w-full sm:w-auto">
           <Link href={toLocaleRoute(locale)}>{t("secondaryCta")}</Link>
         </Button>
-        <Button asChild>
+        <Button asChild className="w-full sm:w-auto">
           <Link href={toLocaleRoute(locale)}>{t("primaryCta")}</Link>
         </Button>
       </div>
 
-      <div className="border-t pt-6">
+      <div className="border-t pt-6 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 sm:pt-8">
         <p className="text-sm font-semibold text-muted-foreground">
           {switcher("label")}
         </p>
