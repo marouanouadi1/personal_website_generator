@@ -1,4 +1,3 @@
 - Do not touch environment secrets or deployment workflows without explicit human approval.
 - Avoid deleting files outside `app`, `components`, `content`, `lib`, `styles`, or `codex` unless a task requests it.
-- Keep diffs under 300 changed lines per commit.
 - Preserve or improve automated test and type-check coverage.
