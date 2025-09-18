@@ -150,19 +150,35 @@ async function getPatchFromLLM(task: string): Promise<string> {
   }
 
   function list(dir: string, depth = 0): string {
-    if (depth > 3) return ""; // limit
+    if (depth > 2) return ""; // reduced depth limit
     try {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
-      return entries
+      const filteredEntries = entries
+        .filter((e) => {
+          // Skip dotfiles and common unnecessary directories
+          if (e.name.startsWith(".")) return false;
+          if (["node_modules", "dist", "build", ".git", "logs", "temp"].includes(e.name))
+            return false;
+          return true;
+        })
+        .slice(0, 20); // limit entries per directory
+
+      return filteredEntries
         .map((e) => {
-          if (e.name.startsWith(".")) return ""; // skip dotfiles except .eslintrc etc
           const rel = path.relative(process.cwd(), path.join(dir, e.name));
           if (e.isDirectory()) {
             return (
               `${"  ".repeat(depth)}- ${rel}/\n` + list(path.join(dir, e.name), depth + 1)
             );
           }
-          if (rel.length > 2000) return ""; // guard
+          // Skip very long paths and binary files
+          if (rel.length > 100) return "";
+          if (
+            rel.match(
+              /\.(jpg|jpeg|png|gif|ico|woff|woff2|ttf|otf|eot|svg|mp4|mp3|avi|mov|zip|tar|gz)$/i,
+            )
+          )
+            return "";
           return `${"  ".repeat(depth)}- ${rel}\n`;
         })
         .join("");
@@ -172,38 +188,72 @@ async function getPatchFromLLM(task: string): Promise<string> {
     }
   }
 
+  // Simple token estimation function (approximately 4 characters per token)
+  function estimateTokens(text: string): number {
+    return Math.ceil(text.length / 4);
+  }
+
+  // Truncate text to fit within token limit
+  function truncateToTokens(text: string, maxTokens: number): string {
+    const maxChars = maxTokens * 4;
+    if (text.length <= maxChars) return text;
+    return (
+      text.substring(0, maxChars - 100) + "\n... [content truncated for token limit]"
+    );
+  }
+
   try {
     log("info", "Initializing OpenAI client");
     const client = new OpenAI({ apiKey });
 
-    // Gather prompt ingredients with error handling
+    // Gather prompt ingredients with error handling and token limits
     let prompt = "";
     let tasksMd = "";
 
     try {
-      prompt = fs.readFileSync("ai/PROMPT.md", "utf8");
+      const fullPrompt = fs.readFileSync("ai/PROMPT.md", "utf8");
+      prompt = truncateToTokens(fullPrompt, 500); // limit to ~500 tokens
     } catch (error) {
       log("warn", "PROMPT.md not found, using empty prompt");
     }
 
     try {
-      tasksMd = fs.readFileSync("ai/TASKS.md", "utf8");
+      const fullTasks = fs.readFileSync("ai/TASKS.md", "utf8");
+      tasksMd = truncateToTokens(fullTasks, 1000); // limit to ~1000 tokens
     } catch (error) {
       log("warn", "TASKS.md not found, using empty tasks");
     }
 
     // Simple repo tree (only few levels for brevity)
     log("info", "Generating repository tree");
-    const tree = list(process.cwd());
+    const fullTree = list(process.cwd());
+    const tree = truncateToTokens(fullTree, 2000); // limit to ~2000 tokens
 
-    const system = `Sei un agente che propone UNA singola patch diff unificata per completare il task richiesto.\nRequisiti:\n- Non modificare file fuori da allowedPaths se definiti.\n- Mantieni patch <= 300 linee.\n- Fornisci SOLO il diff unified senza markdown code blocks (no \`\`\`diff).\n- Formato standard git diff o unified diff applicabile con 'git apply'.`;
+    const system = `Sei un agente che propone UNA patch diff per il task.\nLimiti: patch ≤200 linee, NO file binari.`;
 
-    const userContent = `TASK SELEZIONATO:\n${task}\n\nPROMPT PRINCIPALE:\n${prompt}\n\nBACKLOG COMPLETO:\n${tasksMd}\n\nREPO TREE:\n${tree}\n\nFornisci ora SOLO la patch unified diff applicabile con 'git apply'.`;
+    const userContent = `TASK: ${task}\n\nPROMPT:\n${prompt}\n\nTASKS:\n${tasksMd}\n\nREPO:\n${tree}\n\nFornisci SOLO patch unified diff per 'git apply'.`;
+
+    // Estimate total tokens
+    const systemTokens = estimateTokens(system);
+    const userTokens = estimateTokens(userContent);
+    const totalTokens = systemTokens + userTokens;
+
+    log(
+      "info",
+      `Estimated tokens - System: ${systemTokens}, User: ${userTokens}, Total: ${totalTokens}`,
+    );
+
+    if (totalTokens > 8000) {
+      log(
+        "warn",
+        `High token usage estimated: ${totalTokens}. This might exceed the limit.`,
+      );
+    }
 
     log("info", "Sending request to OpenAI API");
     const completion = await client.chat.completions.create({
       model: "gpt-4o",
-      max_tokens: 4000,
+      max_tokens: 2000, // Reduced from 4000 to be more conservative
       temperature: 0,
       messages: [
         {
@@ -349,10 +399,10 @@ async function main() {
     throw new Error("Patch non applicabile");
   } finally {
     // Clean up temporary file
-    if (fs.existsSync(tmpPath)) {
+   /*  if (fs.existsSync(tmpPath)) {
       fs.unlinkSync(tmpPath);
       log("info", "Cleaned up temporary patch file");
-    }
+    } */
   }
 
   // 5) Qualità - run quality checks with better error handling
