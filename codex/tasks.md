@@ -1,6 +1,6 @@
 # Backlog
 
-- [ ] Setup project scaffolding with Next.js, Tailwind CSS, shadcn/ui, and next-intl (it/en)
+- [x] Setup project scaffolding with Next.js, Tailwind CSS, shadcn/ui, and next-intl (it/en)
 - [ ] Build the home hero section with responsive clamp typography, two CTAs, and a lightweight entrance animation
 - [ ] Create the Highlights section with three interactive pills
 - [ ] Implement the /work listing with filterable project cards
