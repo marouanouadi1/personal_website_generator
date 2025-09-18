@@ -1,4 +1,9 @@
+import createMDX from '@next/mdx';
 import createNextIntlPlugin from 'next-intl/plugin';
+
+const withMDX = createMDX({
+  extension: /\.mdx?$/,
+});
 
 const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts');
 
@@ -8,6 +13,7 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
 };
 
-export default withNextIntl(config);
+export default withNextIntl(withMDX(config));

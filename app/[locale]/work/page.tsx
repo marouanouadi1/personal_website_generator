@@ -1,10 +1,16 @@
 import { getTranslations } from "next-intl/server";
 
-import { WorkListing, type WorkListingProps, type WorkProject } from "@/components/work-listing";
+import {
+  WorkListing,
+  type WorkListingProps,
+  type WorkProject,
+} from "@/components/work-listing";
+import { getCaseStudy } from "@/content/case-studies";
+import type { Locale } from "@/lib/i18n/config";
 
 interface WorkPageProps {
   params: Promise<{
-    locale: string;
+    locale: Locale;
   }>;
 }
 
@@ -24,7 +30,7 @@ interface RawWorkProject {
 }
 
 export default async function WorkPage({ params }: WorkPageProps) {
-  await params;
+  const { locale } = await params;
 
   const t = await getTranslations("work");
 
@@ -41,14 +47,19 @@ export default async function WorkPage({ params }: WorkPageProps) {
   ];
 
   const categoryLabels = rawFilters.categories;
-  const projects: WorkProject[] = Object.values(rawProjects).map((project) => ({
-    id: project.id,
-    title: project.title,
-    description: project.description,
-    period: project.period,
-    categories: Object.values(project.categories ?? {}),
-    highlights: project.highlights ? Object.values(project.highlights) : undefined,
-  }));
+  const projects: WorkProject[] = Object.values(rawProjects).map((project) => {
+    const definition = getCaseStudy(locale, project.id);
+
+    return {
+      id: project.id,
+      title: project.title,
+      description: project.description,
+      period: project.period,
+      categories: Object.values(project.categories ?? {}),
+      highlights: project.highlights ? Object.values(project.highlights) : undefined,
+      href: definition ? `/${locale}/work/${definition.slug}` : undefined,
+    } satisfies WorkProject;
+  });
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-12 px-6 py-[clamp(4rem,12vh,7.5rem)]">
