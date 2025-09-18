@@ -28,6 +28,81 @@
       }
     }
   },
+  "work": {
+    "eyebrow": "Progetti selezionati",
+    "title": "Progetti orientati agli outcome tra prodotto ed engineering",
+    "description": "Filtra per area di interesse per vedere come pensiero di prodotto, front-end e sistemi lavorano insieme per esperienze resilienti.",
+    "filters": {
+      "label": "Filtra per focus",
+      "all": "Tutti i progetti",
+      "categories": {
+        "product": "Design di prodotto",
+        "frontend": "Ingegneria front-end",
+        "systems": "Pensiero sistemico",
+        "content": "Strategia dei contenuti"
+      }
+    },
+    "empty": "Nessun progetto da mostrare. Prova a cambiare il filtro per visualizzare più risultati.",
+    "projects": {
+      "atlasCommerce": {
+        "id": "atlas-commerce",
+        "title": "Atlas Commerce Platform",
+        "description": "Toolkit modulare per e-commerce che aiuta i retailer in crescita a lanciare esperienze localizzate in settimane, non trimestri.",
+        "period": "2023 — 2024",
+        "categories": {
+          "product": "product",
+          "frontend": "frontend",
+          "systems": "systems"
+        },
+        "highlights": {
+          "cadence": "Uniformato i design token tra marketing e checkout aumentando del 32% la velocità di rilascio.",
+          "pipeline": "Introdotto una pipeline di contenuti tipizzata così i team regionali pianificavano promo senza deploy."
+        }
+      },
+      "syncedSupport": {
+        "id": "synced-support",
+        "title": "Synced Support Workspace",
+        "description": "Superficie di triage assistita da AI che instrada il feedback dei clienti alle squadre giuste e mette in evidenza i blocchi ricorrenti.",
+        "period": "2022 — 2023",
+        "categories": {
+          "product": "product",
+          "systems": "systems"
+        },
+        "highlights": {
+          "response": "Rilasciato un modello di priorità che ha ridotto il tempo di risposta del 41%.",
+          "blueprints": "Mappato service blueprint che hanno chiarito ownership e accelerato la risoluzione."
+        }
+      },
+      "wayfindr": {
+        "id": "wayfindr",
+        "title": "Wayfindr Personal Sites",
+        "description": "Generatore semi-automatico che compone portfolio da narrazioni modulari, kit illustrativi e feed di contenuto live.",
+        "period": "2021 — 2022",
+        "categories": {
+          "frontend": "frontend",
+          "content": "content"
+        },
+        "highlights": {
+          "stack": "Ingegnerizzato uno stack Next.js + MDX con anteprime istantanee collegate ai dati Notion.",
+          "demand": "Prodotto blocchi narrativi che hanno portato +27% di richieste di progetto."
+        }
+      },
+      "horizonLab": {
+        "id": "horizon-lab",
+        "title": "Horizon Lab Brand OS",
+        "description": "Sistema di brand interno che allinea marketing, prodotto e talent attorno a formati di storytelling modulari.",
+        "period": "2019 — 2021",
+        "categories": {
+          "content": "content",
+          "systems": "systems"
+        },
+        "highlights": {
+          "kit": "Codificato voce, visual e linee guida canale in un kit riutilizzabile.",
+          "mentorship": "Mentorato team cross-funzionali con playbook asincroni e workshop."
+        }
+      }
+    }
+  },
   "localeSwitcher": {
     "label": "Cambia lingua",
     "options": {

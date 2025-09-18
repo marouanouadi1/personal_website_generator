@@ -28,6 +28,81 @@
       }
     }
   },
+  "work": {
+    "eyebrow": "Selected work",
+    "title": "Outcome-driven projects across product and engineering",
+    "description": "Filter by focus area to explore how product thinking, front-end craft, and systems work together to ship resilient experiences.",
+    "filters": {
+      "label": "Filter by focus",
+      "all": "All projects",
+      "categories": {
+        "product": "Product design",
+        "frontend": "Frontend engineering",
+        "systems": "Systems thinking",
+        "content": "Content strategy"
+      }
+    },
+    "empty": "Nothing to show yet. Try switching the focus filter to see more projects.",
+    "projects": {
+      "atlasCommerce": {
+        "id": "atlas-commerce",
+        "title": "Atlas Commerce Platform",
+        "description": "A modular storefront toolkit helping growth-stage retailers launch localized experiences in weeks, not quarters.",
+        "period": "2023 — 2024",
+        "categories": {
+          "product": "product",
+          "frontend": "frontend",
+          "systems": "systems"
+        },
+        "highlights": {
+          "cadence": "Unified design tokens across marketing and checkout for a 32% faster release cadence.",
+          "pipeline": "Introduced a typed content pipeline so regional teams could stage promotions without code deploys."
+        }
+      },
+      "syncedSupport": {
+        "id": "synced-support",
+        "title": "Synced Support Workspace",
+        "description": "An AI-assisted triage surface that routes customer feedback to the right squads while surfacing repeat blockers automatically.",
+        "period": "2022 — 2023",
+        "categories": {
+          "product": "product",
+          "systems": "systems"
+        },
+        "highlights": {
+          "response": "Shipped a prioritization model that trimmed response time by 41%.",
+          "blueprints": "Mapped service blueprints that clarified ownership and accelerated resolution workflows."
+        }
+      },
+      "wayfindr": {
+        "id": "wayfindr",
+        "title": "Wayfindr Personal Sites",
+        "description": "A semi-automated generator that composes portfolios from modular narratives, illustration kits, and live content feeds.",
+        "period": "2021 — 2022",
+        "categories": {
+          "frontend": "frontend",
+          "content": "content"
+        },
+        "highlights": {
+          "stack": "Engineered a Next.js + MDX stack with instant previews tied to Notion data.",
+          "demand": "Productized narrative blocks that resulted in a 27% lift in project inquiries."
+        }
+      },
+      "horizonLab": {
+        "id": "horizon-lab",
+        "title": "Horizon Lab Brand OS",
+        "description": "An internal brand system aligning marketing, product, and talent touchpoints around modular storytelling formats.",
+        "period": "2019 — 2021",
+        "categories": {
+          "content": "content",
+          "systems": "systems"
+        },
+        "highlights": {
+          "kit": "Codified voice, visuals, and channel guardrails into a reusable brand kit.",
+          "mentorship": "Mentored cross-functional teams adopting the system through async playbooks and workshops."
+        }
+      }
+    }
+  },
   "localeSwitcher": {
     "label": "Switch language",
     "options": {
