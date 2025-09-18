@@ -103,6 +103,118 @@
       }
     }
   },
+  "about": {
+    "eyebrow": "About",
+    "title": "A systems-minded designer building resilient web products",
+    "description": "I bridge product discovery, front-end engineering, and content operations to help teams release thoughtful experiences without losing momentum.",
+    "navigation": {
+      "label": "Browse CV"
+    },
+    "sections": {
+      "experience": {
+        "id": "experience",
+        "title": "Experience",
+        "description": "Roles that blend strategy, design, and code across distributed teams.",
+        "entries": {
+          "atlas": {
+            "id": "atlas",
+            "title": "Atlas Commerce Platform",
+            "subtitle": "Lead Product Designer & Frontend Engineer",
+            "period": "2023 — Present",
+            "location": "Remote",
+            "description": "Guiding the evolution of a modular commerce toolkit for growth-stage retailers.",
+            "highlights": {
+              "playbooks": "Partner with product leadership to frame outcome-driven roadmaps and experiment backlogs.",
+              "designSystem": "Maintain a shared design and component system that keeps marketing and checkout surfaces in sync.",
+              "tooling": "Prototype new shopper flows directly in code, reducing handoff friction between design and engineering."
+            }
+          },
+          "synced": {
+            "id": "synced",
+            "title": "Synced Support Workspace",
+            "subtitle": "Senior Product Designer",
+            "period": "2022 — 2023",
+            "location": "Remote",
+            "description": "Built AI-assisted tooling that helps customer operations teams triage feedback faster.",
+            "highlights": {
+              "ops": "Mapped service blueprints and reporting workflows used by support, product, and data science.",
+              "automation": "Introduced typed content pipelines that cut manual ticket categorization by 40%.",
+              "enablement": "Led async rituals and documentation that helped new squads ship within their first sprint."
+            }
+          },
+          "wayfindr": {
+            "id": "wayfindr",
+            "title": "Wayfindr Studio",
+            "subtitle": "Founder, Product Designer & Engineer",
+            "period": "2020 — 2022",
+            "location": "Milan & Remote",
+            "description": "Independent practice focused on modular websites and automated publishing workflows.",
+            "highlights": {
+              "narratives": "Productized narrative blocks paired with illustration kits tailored to each client’s brand.",
+              "automation": "Connected CMS and analytics data to Next.js builds for live previews and weekly retros.",
+              "mentorship": "Coached small teams on design systems, content governance, and accessibility-first reviews."
+            }
+          }
+        }
+      },
+      "education": {
+        "id": "education",
+        "title": "Education",
+        "entries": {
+          "polimi": {
+            "id": "polimi",
+            "title": "Politecnico di Milano",
+            "subtitle": "MSc, Communication Design",
+            "period": "2015 — 2017",
+            "location": "Milan, Italy",
+            "description": "Research on information architecture, service design, and storytelling for digital products."
+          },
+          "unibo": {
+            "id": "unibo",
+            "title": "Università di Bologna",
+            "subtitle": "BA, Media Studies",
+            "period": "2012 — 2015",
+            "location": "Bologna, Italy",
+            "description": "Explored media semiotics, editorial processes, and cultural programming."
+          }
+        }
+      },
+      "capabilities": {
+        "id": "capabilities",
+        "title": "Capabilities",
+        "description": "Ways I help teams move from zero to shipped while keeping quality measurable.",
+        "entries": {
+          "product": {
+            "id": "product",
+            "title": "Product & Strategy",
+            "highlights": {
+              "roadmaps": "Hypothesis framing, opportunity sizing, and scenario planning with cross-functional partners.",
+              "research": "Qualitative research synthesis and lightweight instrumentation to inform prioritization.",
+              "narrative": "Executive-ready storytelling that keeps stakeholders aligned on customer value."
+            }
+          },
+          "design": {
+            "id": "design",
+            "title": "Design Systems",
+            "highlights": {
+              "tokens": "Design token orchestration in Figma and code for consistent theming across surfaces.",
+              "workflows": "Component documentation and review rituals that scale across distributed teams.",
+              "accessibility": "Inclusive patterns, semantic markup, and audits that keep WCAG compliance front and center."
+            }
+          },
+          "engineering": {
+            "id": "engineering",
+            "title": "Engineering",
+            "highlights": {
+              "frontend": "Modern TypeScript, React, and Next.js builds with an eye on performance budgets.",
+              "content": "Content pipelines that connect CMS data, translations, and automated previews.",
+              "tooling": "CI-friendly automation, typed scripts, and observability hooks for smooth handoffs."
+            }
+          }
+        }
+      }
+    }
+  },
   "localeSwitcher": {
     "label": "Switch language",
     "options": {
