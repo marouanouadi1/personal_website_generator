@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import { CvNavigation } from "@/components/about/cv-navigation";
 import type { Locale } from "@/lib/i18n/config";
 
 interface AboutPageProps {
@@ -38,6 +39,10 @@ export default async function AboutPage({ params }: AboutPageProps) {
     ...section,
     entries: Object.values(section.entries ?? {}),
   }));
+  const navigationSections = sections.map((section) => ({
+    id: section.id,
+    title: section.title,
+  }));
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-12 px-6 py-[clamp(4rem,12vh,7.5rem)]">
@@ -54,31 +59,11 @@ export default async function AboutPage({ params }: AboutPageProps) {
       </header>
 
       <div className="flex flex-col gap-10 md:flex-row md:gap-12">
-        <nav
-          aria-label={navigationLabel}
-          className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 md:sticky md:top-28 md:h-fit md:min-w-[14rem]"
-        >
-          <div className="rounded-3xl border border-border/80 bg-background/90 p-6 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-              {navigationLabel}
-            </p>
-            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-              {sections.map((section) => (
-                <li key={section.id}>
-                  <a
-                    href={`#${section.id}`}
-                    className="inline-flex w-full items-center justify-between rounded-full border border-transparent px-3 py-2 transition-colors hover:border-border/80 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-                  >
-                    <span>{section.title}</span>
-                    <span aria-hidden className="text-base text-muted-foreground/80">
-                      →
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
+        <CvNavigation
+          sections={navigationSections}
+          label={navigationLabel}
+          className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150"
+        />
 
         <div className="flex-1 space-y-16 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
           {sections.map((section) => (
