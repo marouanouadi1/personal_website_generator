@@ -1,217 +1,94 @@
-# Personal Website Generator (AI Assisted)
+# Personal Website Generator (Codex Loop Edition)
 
-An AI-powered development assistant that automatically implements features, fixes bugs, and improves code based on tasks defined in markdown files.
+This repository is configured to run an autonomous coding loop using the [`@openai/codex`](https://www.npmjs.com/package/@openai/codex) command-line interface instead of relying on custom API integrations. The project files and helper scripts are optimized for headless execution inside a simple shell `while` loop.
 
 ## 🚀 Quick Start
 
-1. **Install dependencies:**
+1. **Install dependencies**
 
    ```bash
    npm install
    ```
 
-2. **Setup environment:**
+2. **Install the Codex CLI globally (inside WSL or your preferred shell)**
 
    ```bash
-   cp .env.example .env
-   # Add your OPENAI_API_KEY to .env
+   npm install -g @openai/codex
    ```
 
-3. **Run the AI assistant:**
+3. **Export your OpenAI API key**
+
    ```bash
-   npm run ai:run
+   export OPENAI_API_KEY="sk-..."
    ```
 
-## 🤖 How It Works
+4. **Validate the Codex configuration**
 
-The AI assistant (`scripts/ai-run.ts`) uses GPT-4o (OpenAI) to:
+   ```bash
+   npm run codex:config
+   ```
 
-1. **📋 Read Tasks**: Gets the first uncompleted task from `ai/TASKS.md`
-2. **🌿 Create Branch**: Creates a new branch `ai/<task-slug>`
-3. **🧠 Generate Patch**: Uses AI to create a unified diff patch
-4. **✅ Apply Changes**: Applies the patch using `git apply`
-5. **🔍 Quality Check**: Runs lint, typecheck, test, and build
-6. **💾 Commit**: Commits changes and updates the journal
+5. **Print the loop snippet**
+
+   ```bash
+   npm run codex:loop
+   ```
+
+   Copy the suggested command into your terminal to start the automated loop. The helper script respects the settings stored in `codex/config.json`.
+
+## 🤖 How the Loop Works
+
+- The shell loop pipes the contents of `codex/prompt.md` into the `codex` CLI on each iteration.
+- Tasks are tracked manually in `codex/tasks.md`. The agent is instructed to pick the highest priority unchecked task.
+- After each iteration the agent appends a short entry to `codex/journal.md` and keeps scratch notes inside `codex/scratchpad/`.
+- Guard rails live in `codex/constraints.md`. Update them whenever you need to restrict the loop further.
+
+All loop-specific assets sit under the `codex/` directory so you can tweak behaviour without touching the helper scripts.
 
 ## 📁 Project Structure
 
 ```
-├── ai/                    # AI configuration and data
-│   ├── config.json       # AI assistant settings
-│   ├── TASKS.md          # Task definitions
-│   ├── JOURNAL.md        # Activity log
-│   ├── PROMPT.md         # System prompt
-│   └── CONSTRAINTS.md    # AI constraints
-├── scripts/              # Automation scripts
-│   ├── ai-run.ts         # Main AI assistant
-│   ├── config-validator.ts
-│   ├── git-utils.ts
-│   ├── task-manager.ts
-│   └── project-utils.ts
-└── tests/                # Test suite
+├── codex/                  # Assets consumed by the Codex CLI loop
+│   ├── config.json         # Loop configuration
+│   ├── prompt.md           # Prompt injected on every iteration
+│   ├── tasks.md            # Backlog managed by humans
+│   ├── constraints.md      # Guard rails for the agent
+│   ├── journal.md          # Lightweight changelog
+│   └── scratchpad/         # Free-form working area for the agent
+├── scripts/                # TypeScript utilities for the loop
+│   ├── codex-config.ts     # Config loader/validator + helpers
+│   ├── codex-loop.ts       # Prints the `while` loop snippet
+│   └── codex-validate.ts   # Simple config validation command
+└── tests/                  # Vitest suite for the helper scripts
 ```
 
-## 🛠️ Available Commands
-
-### AI Assistant
+## 🛠️ Available npm Scripts
 
 ```bash
-npm run ai:run              # Run AI assistant
-npm run ai:tasks            # List all tasks
-npm run ai:tasks:next       # Show next priority task
-npm run ai:config:validate  # Validate AI configuration
+npm run codex:config   # Validate codex/config.json
+npm run codex:loop     # Print the shell loop snippet
+npm run build          # Compile TypeScript helpers
+npm run lint           # Lint the TypeScript sources
+npm run typecheck      # Run the TypeScript compiler in no-emit mode
+npm run test           # Execute the Vitest suite
+npm run validate       # Lint + typecheck + test + build
 ```
 
-### Git Management
-
-```bash
-npm run ai:git:status       # Check git status
-npm run ai:git:cleanup      # Clean up AI branches
-npm run ai:git:cleanup:dry  # Preview branch cleanup
-```
-
-### Project Utilities
-
-```bash
-npm run cleanup             # Clean temporary files
-npm run cleanup:dry         # Preview cleanup
-npm run cleanup:deep        # Deep clean (includes node_modules)
-npm run project:validate    # Validate entire project
-npm run project:report      # Generate project report
-```
-
-### Development
-
-```bash
-npm run build               # Build TypeScript
-npm run lint                # Run ESLint
-npm run lint:fix            # Fix linting issues
-npm run typecheck           # TypeScript type checking
-npm run test                # Run tests
-npm run test:watch          # Watch mode tests
-npm run format              # Format code with Prettier
-npm run validate            # Run all quality checks
-```
-
-## 📝 Task Management
-
-### Task Format in `ai/TASKS.md`
-
-```markdown
-# Tasks
-
-- [ ] Implement user authentication [!!!] #urgent #auth
-- [x] Add database schema [!!] #database
-- [ ] Create API endpoints #api
-- [ ] Write unit tests [!] #testing
-```
-
-**Features:**
-
-- `[ ]` / `[x]` - Pending / Completed
-- `[!]` / `[!!]` / `[!!!]` - Low / Medium / High priority
-- `#tag` - Task categories and labels
-
-### Priority System
-
-- **🔴 High `[!!!]`**: Critical bugs, security issues
-- **🟡 Medium `[!!]`**: Important features, performance
-- **🟢 Low `[!]`**: Nice-to-have features, documentation
-- **⚪ None**: General maintenance
-
-## ⚙️ Configuration
-
-Edit `ai/config.json` to customize AI behavior:
-
-```json
-{
-  "allowedPaths": ["app", "components", "lib", "scripts"],
-  "branchPrefix": "ai/",
-  "maxChangedLines": 300,
-  "commands": {
-    "lint": "npm run lint",
-    "typecheck": "npm run typecheck",
-    "test": "npm test",
-    "build": "npm run build"
-  },
-  "retry": 2
-}
-```
-
-## 🔒 Safety Features
-
-- **Branch Isolation**: All AI changes in separate branches
-- **Quality Gates**: Automatic linting, testing, and type checking
-- **Change Limits**: Restricted file paths and patch sizes
-- **Rollback Options**: Easy to undo with Git history
-- **Dry Run Modes**: Preview changes before applying
+Feel free to extend the script list with additional automation tailored to your workflow.
 
 ## 🧪 Testing
 
 ```bash
-npm test                    # Run all tests
-npm run test:watch          # Watch mode
-npm run test:coverage       # Coverage report
+npm test
 ```
 
-Tests cover:
+The tests focus on validating the Codex configuration loader and the loop command generator to ensure your automation tooling stays reliable.
 
-- Configuration validation
-- Task parsing and management
-- Git utilities
-- Error handling
+## 🗂️ Maintaining the Loop
 
-## 📖 Documentation
+- Edit `codex/tasks.md` to reprioritize work.
+- Update `codex/prompt.md` to steer the agent's behaviour.
+- Clear or archive files in `codex/scratchpad/` between sessions.
+- Review `codex/journal.md` to understand what the loop accomplished overnight.
 
-- [Development Guide](./DEVELOPMENT.md) - Detailed usage and best practices
-- [AI Configuration](./ai/config.json) - AI assistant settings
-- [Task Examples](./ai/TASKS.md) - Sample task definitions
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**AI fails to apply patch:**
-
-- Check file permissions and conflicts
-- Verify `allowedPaths` in config
-- Review patch size limits
-
-**Quality checks fail:**
-
-- Fix linting/type errors manually
-- Update failing tests
-- Check build configuration
-
-**Branch conflicts:**
-
-- Clean up old branches: `npm run ai:git:cleanup`
-- Ensure clean working directory
-- Switch to main branch
-
-### Debug Commands
-
-```bash
-npm run project:validate    # Full project health check
-npm run ai:git:status       # Detailed git status
-npm run cleanup:dry -- --verbose # Verbose cleanup preview
-```
-
-## 🔑 Environment Variables
-
-- `OPENAI_API_KEY` - Required for AI functionality
-
-## 🚧 Technical Details
-
-- **AI Model**: GPT-4o (gpt-4o)
-- **Patch Limit**: 300 lines (configurable)
-- **Node Version**: 18+ required
-- **Package Manager**: npm/pnpm supported
-
-## 📄 License
-
-This project is private and not licensed for public use.
-
----
-
-For detailed development instructions, see [DEVELOPMENT.md](./DEVELOPMENT.md).
+With this setup you can safely iterate on the personal website while letting the Codex CLI handle the repetitive plumbing.

@@ -1,0 +1,12 @@
+{
+  "promptFile": "codex/prompt.md",
+  "command": "codex",
+  "delaySeconds": 8,
+  "workingDirectory": "..",
+  "metadata": {
+    "tasksFile": "codex/tasks.md",
+    "journalFile": "codex/journal.md",
+    "constraintsFile": "codex/constraints.md",
+    "scratchpadDir": "codex/scratchpad"
+  }
+}
