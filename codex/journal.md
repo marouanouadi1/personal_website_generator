@@ -10,3 +10,7 @@ Commit: 7bca67e1d95e7b229d961aecaf047f6a13085a96
 Task: Build the home hero section with responsive clamp typography, two CTAs, and a lightweight entrance animation
 Summary: Reworked the localized home hero with clamp-driven heading/body styles, responsive CTA layout, staged fade/slide-in animations, and synced the backlog checklist while keeping existing copy + locale switcher intact. Validated lint, type check, and tests.
 Commit: 1e7af738870137f3856d28bd8a9688c3136f62e6, 1cc5d709c64802c9361fb4754c523df5c381cff7
+## 2025-09-18T21:28:51Z
+Task: Create the Highlights section with three interactive pills
+Summary: Introduced a client-side highlights section on the localized home page with focusable pills and a descriptive panel, wired it to structured locale content, and refreshed English/Italian strings. Validated linting, type checks, and tests.
+Commit: 525ecdf8c6cc9c0f0daadca014b27b99da451664
