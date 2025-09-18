@@ -6,7 +6,7 @@
 - [x] Implement the /work listing with filterable project cards
 - [x] Draft a reusable Case Study template (MDX SFDRR) with one filled example
 - [x] Assemble the About page with a navigable CV
-- [ ] Ship the Play area with Films + Music tabs
+- [x] Ship the Play area with Films + Music tabs
 - [ ] Wire a contact form backed by Turnstile and Resend
 - [ ] Add baseline SEO metadata and a dynamic OG image
 - [ ] Localize custom 404/500 pages

@@ -103,6 +103,82 @@
       }
     }
   },
+  "play": {
+    "eyebrow": "Play",
+    "title": "Film e musica che alimentano gli esperimenti",
+    "description": "Una selezione in rotazione di storie e suoni che riascolto quando serve un reset creativo.",
+    "tablistLabel": "Sfoglia le categorie",
+    "tabs": {
+      "films": {
+        "id": "films",
+        "label": "Film",
+        "description": "Narrazioni radicate con ritmo quieto e tanta texture.",
+        "items": {
+          "pastLives": {
+            "id": "past-lives",
+            "title": "Past Lives",
+            "meta": "Celine Song • 2023",
+            "description": "Compagni d'infanzia che si ritrovano a New York e fanno i conti con la vita immaginata e quella scelta.",
+            "notes": {
+              "chemistry": "Sguardi sospesi e l'inevitabilità di scelte impossibili."
+            }
+          },
+          "aftersun": {
+            "id": "aftersun",
+            "title": "Aftersun",
+            "meta": "Charlotte Wells • 2022",
+            "description": "Una vacanza padre-figlia raccontata tra frammenti di videocamera e vuoti di memoria.",
+            "notes": {
+              "texture": "Luce, grana da camcorder e dialoghi sussurrati che emergono ore dopo."
+            }
+          },
+          "theFarewell": {
+            "id": "the-farewell",
+            "title": "The Farewell",
+            "meta": "Lulu Wang • 2019",
+            "description": "Una famiglia organizza un finto matrimonio per salutare senza pronunciare la parola addio.",
+            "notes": {
+              "balance": "Tiene insieme lutto, umorismo e traduzione culturale con grande cura."
+            }
+          }
+        }
+      },
+      "music": {
+        "id": "music",
+        "label": "Musica",
+        "description": "Dischi che ricalibrano il ritmo quando serve nuova energia.",
+        "items": {
+          "yussefDayes": {
+            "id": "yussef-dayes",
+            "title": "Black Classical Music",
+            "meta": "Yussef Dayes • 2023",
+            "description": "Jazz guidato dalla batteria che mantiene lo slancio lasciando spazio ai pensieri.",
+            "notes": {
+              "pulse": "Brano preferito: Rust con Tom Misch."
+            }
+          },
+          "hiatusKaiyote": {
+            "id": "hiatus-kaiyote",
+            "title": "Mood Valiant",
+            "meta": "Hiatus Kaiyote • 2021",
+            "description": "Un caleidoscopio di groove e tempi dispari che resta sempre caldo.",
+            "notes": {
+              "groove": "Brano preferito: Rose Water."
+            }
+          },
+          "kiasmos": {
+            "id": "kiasmos",
+            "title": "Kiasmos",
+            "meta": "Kiasmos • 2014",
+            "description": "Techno minimale per il deep work che resta umana e materica.",
+            "notes": {
+              "focus": "Brano preferito: Looped."
+            }
+          }
+        }
+      }
+    }
+  },
   "about": {
     "eyebrow": "Chi sono",
     "title": "Designer con mentalità sistemica che costruisce prodotti web resilienti",

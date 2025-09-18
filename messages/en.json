@@ -103,6 +103,82 @@
       }
     }
   },
+  "play": {
+    "eyebrow": "Play",
+    "title": "Films and music keeping experiments energized",
+    "description": "A rotating selection of stories and sounds I revisit when I need a creative reset.",
+    "tablistLabel": "Browse media categories",
+    "tabs": {
+      "films": {
+        "id": "films",
+        "label": "Films",
+        "description": "Grounding narratives with texture and quiet momentum.",
+        "items": {
+          "pastLives": {
+            "id": "past-lives",
+            "title": "Past Lives",
+            "meta": "Celine Song • 2023",
+            "description": "Childhood friends reunited in New York negotiate the lives they imagined and the ones they actually chose.",
+            "notes": {
+              "chemistry": "Lingering glances and the inevitability of impossible choices."
+            }
+          },
+          "aftersun": {
+            "id": "aftersun",
+            "title": "Aftersun",
+            "meta": "Charlotte Wells • 2022",
+            "description": "A father-daughter holiday told through home video fragments and memory gaps.",
+            "notes": {
+              "texture": "Sunlight, camcorder grain, and quiet exchanges that hit hours later."
+            }
+          },
+          "theFarewell": {
+            "id": "the-farewell",
+            "title": "The Farewell",
+            "meta": "Lulu Wang • 2019",
+            "description": "A family stages a wedding to say goodbye without saying the word goodbye.",
+            "notes": {
+              "balance": "Balances grief, humor, and cultural translation with so much care."
+            }
+          }
+        }
+      },
+      "music": {
+        "id": "music",
+        "label": "Music",
+        "description": "Records that reset my pacing when a project needs new energy.",
+        "items": {
+          "yussefDayes": {
+            "id": "yussef-dayes",
+            "title": "Black Classical Music",
+            "meta": "Yussef Dayes • 2023",
+            "description": "Drum-led jazz that keeps momentum while leaving room to think.",
+            "notes": {
+              "pulse": "Favorite track: Rust featuring Tom Misch."
+            }
+          },
+          "hiatusKaiyote": {
+            "id": "hiatus-kaiyote",
+            "title": "Mood Valiant",
+            "meta": "Hiatus Kaiyote • 2021",
+            "description": "A kaleidoscope of grooves and time signatures that never loses warmth.",
+            "notes": {
+              "groove": "Favorite track: Rose Water."
+            }
+          },
+          "kiasmos": {
+            "id": "kiasmos",
+            "title": "Kiasmos",
+            "meta": "Kiasmos • 2014",
+            "description": "Minimal techno for deep work that still feels human and textured.",
+            "notes": {
+              "focus": "Favorite track: Looped."
+            }
+          }
+        }
+      }
+    }
+  },
   "about": {
     "eyebrow": "About",
     "title": "A systems-minded designer building resilient web products",
