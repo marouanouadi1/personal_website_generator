@@ -22,3 +22,7 @@ Commit: 693982712bf17654965487fe692a68f13bfa2ee0
 Task: Draft a reusable Case Study template (MDX SFDRR) with one filled example
 Summary: Enabled MDX support with a reusable case study component library, dynamic /[locale]/work/[slug] route, and the inaugural Atlas Commerce case study content. Updated the work listing to surface case study links and validated lint, typecheck, and tests.
 Commit: 08140492717e25eb3c1cbd2ec3d15ffdca7ed2fe
+## 2025-09-18T23:16:06Z
+Task: Draft a reusable Case Study template (MDX SFDRR) with one filled example
+Summary: Verified the existing case study implementation meets the backlog goals and marked the task complete now that the template plus example are live. Re-ran lint, type checks, and tests to confirm nothing regressed.
+Commit: a1e72483825a1decf5953dccb5242de5837b3ade
