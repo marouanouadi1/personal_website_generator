@@ -46,3 +46,7 @@ Commit: b48a0e91a37d4f4a47f0366dc7be0b359e3b31f5
 Task: Add baseline SEO metadata and a dynamic OG image
 Summary: Introduced a shared SEO config feeding global and locale layouts with metadataBase, language alternates, Open Graph, and Twitter cards, then added a localized OG image route that renders translated hero copy. Verified the update by running lint, type checks, and Vitest.
 Commit: c77752a078559b1f11814dcfe4996470250494e1
+## 2025-09-19T00:32:39Z
+Task: Localize custom 404/500 pages
+Summary: Added localized not-found and error boundaries under the locale segment, introduced shared English/Italian copy for recovery CTAs, and wired the views to typed locale routes while keeping styling consistent. Confirmed lint, type checks, and Vitest all pass.
+Commit: 38bb301b0800f8edb9fe8775355aa78d912e0035

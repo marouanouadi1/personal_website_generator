@@ -9,4 +9,4 @@
 - [x] Ship the Play area with Films + Music tabs
 - [x] Wire a contact form backed by Turnstile and Resend
 - [x] Add baseline SEO metadata and a dynamic OG image
-- [ ] Localize custom 404/500 pages
+- [x] Localize custom 404/500 pages
