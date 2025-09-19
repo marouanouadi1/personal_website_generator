@@ -357,5 +357,21 @@
       "en": "English",
       "it": "Italiano"
     }
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page not found",
+      "description": "The page you were trying to reach doesn't exist. It may have been moved or removed.",
+      "primaryCta": "Back to home",
+      "secondaryCta": "Contact me"
+    },
+    "serverError": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Try again, or reach out if the problem continues.",
+      "primaryCta": "Try again",
+      "secondaryCta": "Contact me",
+      "digestLabel": "Error reference",
+      "digestUnavailable": "Unavailable"
+    }
   }
 }

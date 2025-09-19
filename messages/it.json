@@ -357,5 +357,21 @@
       "en": "English",
       "it": "Italiano"
     }
+  },
+  "errors": {
+    "notFound": {
+      "title": "Pagina non trovata",
+      "description": "La pagina che stavi cercando non esiste più. Potrebbe essere stata spostata o rimossa.",
+      "primaryCta": "Torna alla home",
+      "secondaryCta": "Contattami"
+    },
+    "serverError": {
+      "title": "Si è verificato un errore",
+      "description": "Si è verificato un errore imprevisto. Riprova oppure contattami se il problema persiste.",
+      "primaryCta": "Riprova",
+      "secondaryCta": "Contattami",
+      "digestLabel": "Riferimento errore",
+      "digestUnavailable": "Non disponibile"
+    }
   }
 }
