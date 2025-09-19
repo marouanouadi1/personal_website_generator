@@ -42,3 +42,7 @@ Commit: 4b0491607eaa6b18943ebd88ee0e5521ab3765fe
 Task: Wire a contact form backed by Turnstile and Resend
 Summary: Added a localized /[locale]/contact route with a client-side form that verifies Cloudflare Turnstile tokens and dispatches messages through the Resend API. Introduced reusable input/textarea UI primitives, hardened the server action with validation + config guards, expanded locale strings, and documented the required environment variables. Covered the new helpers with unit tests and updated tooling to resolve DOM types.
 Commit: b48a0e91a37d4f4a47f0366dc7be0b359e3b31f5
+## 2025-09-19T00:24:23Z
+Task: Add baseline SEO metadata and a dynamic OG image
+Summary: Introduced a shared SEO config feeding global and locale layouts with metadataBase, language alternates, Open Graph, and Twitter cards, then added a localized OG image route that renders translated hero copy. Verified the update by running lint, type checks, and Vitest.
+Commit: c77752a078559b1f11814dcfe4996470250494e1
