@@ -38,3 +38,7 @@ Commit: d234257b429c68f9dfd60f59cd793d59b0f3a50b
 Task: Ship the Play area with Films + Music tabs
 Summary: Delivered a localized /play page that renders new PlayTabs with English/Italian media data, providing animated hero copy and tabbed Films/Music cards fed by structured translations. Lint, typecheck, and Vitest suites all pass.
 Commit: 4b0491607eaa6b18943ebd88ee0e5521ab3765fe
+## 2025-09-19T00:10:18Z
+Task: Wire a contact form backed by Turnstile and Resend
+Summary: Added a localized /[locale]/contact route with a client-side form that verifies Cloudflare Turnstile tokens and dispatches messages through the Resend API. Introduced reusable input/textarea UI primitives, hardened the server action with validation + config guards, expanded locale strings, and documented the required environment variables. Covered the new helpers with unit tests and updated tooling to resolve DOM types.
+Commit: b48a0e91a37d4f4a47f0366dc7be0b359e3b31f5
