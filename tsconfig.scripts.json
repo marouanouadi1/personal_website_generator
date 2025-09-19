@@ -6,6 +6,16 @@
     "moduleResolution": "NodeNext",
     "outDir": "dist",
     "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "lib": [
+      "es2022",
+      "dom"
+    ],
     "allowJs": false,
     "noEmit": false,
     "declaration": false

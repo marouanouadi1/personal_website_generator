@@ -75,6 +75,18 @@ npm run validate   # Runs all of the above sequentially
 
 Run these commands manually when iterating on the automation tooling. They are also safe to execute from the Codex loop if you decide to enforce checks per iteration.
 
+## Contact Form Configuration
+
+The `/[locale]/contact` page relies on Cloudflare Turnstile and Resend. Set the following environment variables before running the app locally or deploying:
+
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY` – Public site key rendered by the form widget.
+- `TURNSTILE_SECRET_KEY` – Private key used by the server action to verify submissions.
+- `RESEND_API_KEY` – Server-side key for the Resend API.
+- `RESEND_FROM_EMAIL` – Verified sender address (e.g. `Portfolio <hello@example.com>`).
+- `CONTACT_RECIPIENT_EMAIL` – Destination inbox for contact requests (defaults to `RESEND_FROM_EMAIL` when omitted).
+
+When configuration is missing, the form stays disabled and shows a friendly fallback message so visitors aren’t left guessing.
+
 ## Tips for Loop Sessions
 
 - Start with shorter `delaySeconds` in `codex/config.json` while experimenting, then increase for overnight runs.

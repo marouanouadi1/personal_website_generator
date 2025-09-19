@@ -3,7 +3,7 @@
     "eyebrow": "Launch faster",
     "title": "Craft personal websites with confidence",
     "description": "Start from a modern Next.js foundation with Tailwind CSS, shadcn/ui, and localized content ready to extend.",
-    "primaryCta": "Create a project",
+    "primaryCta": "Start a project",
     "secondaryCta": "Explore the stack",
     "highlights": {
       "eyebrow": "Highlights",
@@ -288,6 +288,66 @@
             }
           }
         }
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Share the next project or collaboration",
+    "description": "Outline the context, timeline, and any helpful links. I aim to follow up within two business days.",
+    "highlightsTitle": "What to expect",
+    "highlights": {
+      "response": {
+        "title": "Prompt follow-up",
+        "description": "Replies land within two business days with next steps or clarifying questions."
+      },
+      "focus": {
+        "title": "Project focus",
+        "description": "Best fit for product design, front-end engineering, or narrative systems work."
+      },
+      "process": {
+        "title": "Collaborative process",
+        "description": "Expect async updates, clear checkpoints, and transparent scopes before committing."
+      }
+    },
+    "form": {
+      "legend": "Start the conversation",
+      "submit": "Send message",
+      "fields": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Your name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "you@example.com"
+        },
+        "message": {
+          "label": "Project details",
+          "placeholder": "Share goals, scope, or context."
+        }
+      },
+      "errors": {
+        "name": {
+          "required": "Please add your name."
+        },
+        "email": {
+          "required": "Please add your email address.",
+          "invalid": "Enter a valid email address."
+        },
+        "message": {
+          "required": "Let me know what you'd like to work on."
+        },
+        "turnstile": "Please complete the Turnstile check before submitting."
+      },
+      "alerts": {
+        "success": "Thanks for reaching out! I'll get back to you within two business days.",
+        "validation": "Check the form for fields that need attention.",
+        "turnstile": "Please refresh and try again after completing the Turnstile check.",
+        "config": "The form is unavailable right now. Please email me directly.",
+        "resend": "Something went wrong while sending your message. Please try again or email me directly.",
+        "unknown": "Something unexpected happened. Please try again shortly.",
+        "misconfigured": "The form is temporarily offline while configuration updates. Please email me instead."
       }
     }
   },

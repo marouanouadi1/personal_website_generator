@@ -48,7 +48,7 @@ export default async function HomePage({ params }: HomePageProps) {
           <Link href={toLocaleRoute(locale)}>{t("secondaryCta")}</Link>
         </Button>
         <Button asChild className="w-full sm:w-auto">
-          <Link href={toLocaleRoute(locale)}>{t("primaryCta")}</Link>
+          <Link href={toContactRoute(locale)}>{t("primaryCta")}</Link>
         </Button>
       </div>
 
@@ -81,4 +81,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
 function toLocaleRoute(locale: Locale): Route<"/[locale]"> {
   return `/${locale}` as Route<"/[locale]">;
+}
+
+function toContactRoute(locale: Locale): Route<"/[locale]/contact"> {
+  return `/${locale}/contact` as Route<"/[locale]/contact">;
 }

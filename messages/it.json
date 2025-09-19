@@ -3,7 +3,7 @@
     "eyebrow": "Lancia più velocemente",
     "title": "Crea siti personali con sicurezza",
     "description": "Parti da una base moderna con Next.js, Tailwind CSS, shadcn/ui e contenuti già localizzati.",
-    "primaryCta": "Crea un progetto",
+    "primaryCta": "Avvia un progetto",
     "secondaryCta": "Esplora lo stack",
     "highlights": {
       "eyebrow": "In evidenza",
@@ -288,6 +288,66 @@
             }
           }
         }
+      }
+    }
+  },
+  "contact": {
+    "eyebrow": "Contatti",
+    "title": "Raccontami il prossimo progetto o collaborazione",
+    "description": "Condividi contesto, tempistiche e link utili. Rispondo entro due giorni lavorativi.",
+    "highlightsTitle": "Cosa aspettarsi",
+    "highlights": {
+      "response": {
+        "title": "Risposta rapida",
+        "description": "Riceverai un riscontro entro due giorni lavorativi con i prossimi passi o eventuali domande."
+      },
+      "focus": {
+        "title": "Focus progettuale",
+        "description": "Ideale per design di prodotto, sviluppo front-end o sistemi narrativi."
+      },
+      "process": {
+        "title": "Processo collaborativo",
+        "description": "Aggiornamenti asincroni, checkpoint chiari e scoping trasparente prima di partire."
+      }
+    },
+    "form": {
+      "legend": "Avvia la conversazione",
+      "submit": "Invia messaggio",
+      "fields": {
+        "name": {
+          "label": "Nome",
+          "placeholder": "Il tuo nome"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "tu@esempio.com"
+        },
+        "message": {
+          "label": "Dettagli del progetto",
+          "placeholder": "Racconta obiettivi, ambito o contesto."
+        }
+      },
+      "errors": {
+        "name": {
+          "required": "Inserisci il tuo nome."
+        },
+        "email": {
+          "required": "Inserisci il tuo indirizzo email.",
+          "invalid": "Fornisci un indirizzo email valido."
+        },
+        "message": {
+          "required": "Descrivi ciò su cui vorresti lavorare."
+        },
+        "turnstile": "Completa il controllo Turnstile prima di inviare."
+      },
+      "alerts": {
+        "success": "Grazie per il messaggio! Ti risponderò entro due giorni lavorativi.",
+        "validation": "Controlla i campi del form che richiedono attenzione.",
+        "turnstile": "Aggiorna la pagina e riprova dopo aver completato il controllo Turnstile.",
+        "config": "Il form non è disponibile in questo momento. Scrivimi via email.",
+        "resend": "Si è verificato un errore durante l'invio. Riprova o scrivimi via email.",
+        "unknown": "Si è verificato un errore inatteso. Riprova tra poco.",
+        "misconfigured": "Il form è temporaneamente offline per aggiornamenti. Scrivimi via email."
       }
     }
   },
