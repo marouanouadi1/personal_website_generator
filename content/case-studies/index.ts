@@ -44,7 +44,7 @@ const caseStudies: CaseStudyDefinition[] = [
   {
     slug: "atlas-commerce",
     locale: "en",
-    module: () => import("./en/atlas-commerce.mdx") as Promise<CaseStudyModule>,
+    module: () => import("./en/atlas-commerce.tsx") as Promise<CaseStudyModule>,
   },
 ];
 

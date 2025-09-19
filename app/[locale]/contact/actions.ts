@@ -18,7 +18,8 @@ export interface ContactFormState {
 
 const initialState: ContactFormState = { status: "idle" };
 
-export function getInitialContactState(): ContactFormState {
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function getInitialContactState(): Promise<ContactFormState> {
   return { ...initialState };
 }
 

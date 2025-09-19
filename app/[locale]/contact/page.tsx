@@ -38,7 +38,9 @@ export default async function ContactPage({ params }: ContactPageProps) {
 
       <div className="grid gap-10 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
         <section className="space-y-6 self-start rounded-lg border border-border bg-muted/10 p-6">
-          <h2 className="text-base font-semibold text-foreground">{t("highlightsTitle")}</h2>
+          <h2 className="text-base font-semibold text-foreground">
+            {t("highlightsTitle")}
+          </h2>
           <ul className="space-y-4">
             {highlights.map((highlight) => (
               <li key={highlight.title} className="space-y-1">
@@ -51,7 +53,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
 
         <ContactForm
           action={submitContact}
-          initialState={getInitialContactState()}
+          initialState={await getInitialContactState()}
           siteKey={siteKey}
           locale={locale}
         />
