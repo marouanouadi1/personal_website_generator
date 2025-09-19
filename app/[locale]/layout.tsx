@@ -3,7 +3,18 @@ import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
-import { defaultLocale, locales, type Locale } from "@/lib/i18n/config";
+import {
+  OG_IMAGE_SIZE,
+  TITLE_TEMPLATE,
+  getCanonicalPath,
+  getLanguageAlternates,
+  getLocaleSeo,
+  getOgImagePath,
+  getOpenGraphAlternateLocales,
+  getOpenGraphLocale,
+  siteMetadata,
+} from "@/lib/seo/config";
+import { defaultLocale, isLocale, locales, type Locale } from "@/lib/i18n/config";
 
 interface LocaleLayoutProps {
   children: ReactNode;
@@ -26,15 +37,42 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale = parseLocale(rawLocale);
 
-  const title = locale === "it" ? "Generatore di siti personali" : "Personal Website Generator";
-  const description =
-    locale === "it"
-      ? "Esperienza multilingue costruita con Next.js, Tailwind CSS, shadcn/ui e next-intl."
-      : "Multilingual experience powered by Next.js, Tailwind CSS, shadcn/ui, and next-intl.";
+  const seo = getLocaleSeo(locale);
+  const ogImagePath = getOgImagePath(locale);
 
   return {
-    title,
-    description,
+    title: {
+      default: seo.title,
+      template: TITLE_TEMPLATE,
+    },
+    description: seo.description,
+    alternates: {
+      canonical: getCanonicalPath(locale),
+      languages: getLanguageAlternates(),
+    },
+    openGraph: {
+      type: "website",
+      siteName: siteMetadata.name,
+      locale: getOpenGraphLocale(locale),
+      alternateLocale: getOpenGraphAlternateLocales(locale),
+      url: getCanonicalPath(locale),
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      images: [
+        {
+          url: ogImagePath,
+          width: OG_IMAGE_SIZE.width,
+          height: OG_IMAGE_SIZE.height,
+          alt: seo.ogTitle,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      images: [ogImagePath],
+    },
   };
 }
 
@@ -59,8 +97,8 @@ export default async function LocaleLayout({
 }
 
 function parseLocale(rawLocale: string): Locale {
-  if (locales.includes(rawLocale as Locale)) {
-    return rawLocale as Locale;
+  if (isLocale(rawLocale)) {
+    return rawLocale;
   }
 
   if (rawLocale === undefined || rawLocale === null) {

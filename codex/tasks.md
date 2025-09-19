@@ -8,5 +8,5 @@
 - [x] Assemble the About page with a navigable CV
 - [x] Ship the Play area with Films + Music tabs
 - [x] Wire a contact form backed by Turnstile and Resend
-- [ ] Add baseline SEO metadata and a dynamic OG image
+- [x] Add baseline SEO metadata and a dynamic OG image
 - [ ] Localize custom 404/500 pages
